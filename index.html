@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loren Gianelli Vieira — Painel Estratégico</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --card: #ffffff;
+    --text: #1d1d1f;
+    --text2: #86868b;
+    --accent: #0071e3;
+    --accent2: #0077ed;
+    --danger: #ff3b30;
+    --success: #34c759;
+    --blue: #0071e3;
+    --border: #e8e8ed;
+    --radius: 20px;
+    --shadow: 0 2px 16px rgba(0,0,0,0.04);
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(251,251,253,0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 0.5px solid rgba(0,0,0,0.08);
+    padding: 0 24px;
+    height: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-size: 18px; font-weight: 600; letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .nav-tabs {
+    display: flex; gap: 4px;
+  }
+
+  .nav-tab {
+    padding: 6px 16px; border-radius: 980px;
+    font-size: 12px; font-weight: 400;
+    color: var(--text2); cursor: pointer;
+    transition: all 0.2s;
+    border: none; background: none;
+    font-family: var(--font);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { background: var(--text); color: #fff; }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 24px 40px;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-size: 20px; font-weight: 700; letter-spacing: -0.025em;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 48px 0 32px;
+  }
+
+  .hero h1 {
+    font-size: 40px; font-weight: 700; letter-spacing: -0.04em;
+    color: var(--text);
+  }
+
+  .hero p {
+    color: var(--text2); font-size: 17px; margin-top: 8px;
+  }
+
+  /* STATS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 32px; font-weight: 700; letter-spacing: -0.04em;
+    color: var(--text);
+  }
+
+  .stat-label {
+    font-size: 13px; color: var(--text2); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* FORMS */
+  .form-group { margin-bottom: 16px; }
+
+  .form-label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--text2); margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px; font-size: 15px;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(0,113,227,0.12);
+  }
+
+  .form-textarea { resize: vertical; min-height: 80px; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: 12px;
+    font-size: 14px; font-weight: 600;
+    font-family: var(--font);
+    cursor: pointer; border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--text); color: #fff;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-accent {
+    background: var(--blue); color: #fff;
+  }
+  .btn-accent:hover { background: var(--accent2); }
+
+  .btn-ghost {
+    background: none; color: var(--text2);
+    padding: 6px 12px;
+  }
+  .btn-ghost:hover { color: var(--text); }
+
+  .btn-danger {
+    background: none; color: var(--danger);
+    padding: 6px 12px; font-size: 13px;
+  }
+
+  .btn-sm { padding: 6px 14px; font-size: 13px; border-radius: 10px; }
+
+  /* BADGES */
+  .badge {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 20px; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .badge-captacao { background: #fef3c7; color: #92400e; }
+  .badge-execucao { background: #d1fae5; color: #065f46; }
+  .badge-ajuste { background: #e0e7ff; color: #3730a3; }
+  .badge-pendente { background: #fef3c7; color: #92400e; }
+  .badge-confirmado { background: #d1fae5; color: #065f46; }
+  .badge-concluido { background: #e0e7ff; color: #3730a3; }
+  .badge-troca { background: #fce7f3; color: #9d174d; }
+  .badge-pago { background: #d1fae5; color: #065f46; }
+
+  /* LIST ITEMS */
+  .list-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .list-item:last-child { border-bottom: none; }
+
+  .list-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 600; font-size: 15px;
+    flex-shrink: 0;
+    overflow: hidden;
+    letter-spacing: -0.01em;
+  }
+
+  .list-avatar img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+
+  .list-content { flex: 1; min-width: 0; }
+
+  .list-name {
+    font-size: 15px; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .list-sub {
+    font-size: 13px; color: var(--text2);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .list-actions { display: flex; gap: 4px; flex-shrink: 0; }
+
+  /* CALENDAR */
+  .calendar-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .calendar-month { font-size: 20px; font-weight: 600; }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+  }
+
+  .calendar-day-name {
+    font-size: 11px; color: var(--text2); font-weight: 600;
+    padding: 8px 0; text-transform: uppercase;
+  }
+
+  .calendar-day {
+    padding: 8px 4px; border-radius: 10px;
+    font-size: 14px; cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .calendar-day:hover { background: rgba(0,0,0,0.04); }
+  .calendar-day.today { background: var(--text); color: #fff; font-weight: 700; }
+  .calendar-day.selected { background: var(--blue); color: #fff; }
+  .calendar-day.other-month { color: var(--border); }
+
+  .calendar-day .dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--blue); margin: 2px auto 0;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 200;
+    align-items: center; justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 36px;
+    width: 100%; max-width: 520px;
+    max-height: 85vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+
+  .modal-title {
+    font-size: 24px; font-weight: 700; margin-bottom: 20px;
+    letter-spacing: -0.03em;
+  }
+
+  .modal-actions {
+    display: flex; gap: 8px; justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  /* PHASE INDICATOR */
+  .phase-bar {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .phase-label {
+    font-size: 13px; color: var(--text2); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .phase-track {
+    flex: 1; height: 6px; background: var(--border);
+    border-radius: 3px; overflow: hidden;
+  }
+
+  .phase-fill {
+    height: 100%; border-radius: 3px;
+    background: var(--blue);
+    transition: width 0.6s ease;
+  }
+
+  .phase-text {
+    font-size: 15px; font-weight: 600;
+  }
+
+  /* STRATEGY */
+  .strategy-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--blue);
+  }
+
+  .strategy-title {
+    font-size: 15px; font-weight: 700; margin-bottom: 6px;
+  }
+
+  .strategy-desc {
+    font-size: 14px; color: var(--text2); line-height: 1.6;
+  }
+
+  /* PHOTOS GRID */
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+  }
+
+  .photo-thumb {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--border);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .photo-thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+
+  .photo-thumb .photo-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    color: #fff; padding: 8px; font-size: 11px; font-weight: 600;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center; padding: 48px 24px; color: var(--text2);
+  }
+
+  .empty-state-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+  .empty-state-text { font-size: 15px; }
+
+  /* WEEK VIEW */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+
+  .week-day {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px 12px;
+    min-height: 140px;
+    box-shadow: var(--shadow);
+  }
+
+  .week-day-header {
+    font-size: 12px; color: var(--text2); font-weight: 600;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+
+  .week-day-number {
+    font-size: 22px; font-weight: 700; margin-bottom: 8px;
+  }
+
+  .week-day.today-col { border: 2px solid var(--blue); }
+
+  .week-event {
+    padding: 6px 8px; border-radius: 8px;
+    font-size: 12px; font-weight: 500;
+    margin-bottom: 4px;
+    cursor: pointer;
+  }
+
+  .week-event.captacao { background: #fef3c7; color: #92400e; }
+  .week-event.execucao { background: #d1fae5; color: #065f46; }
+  .week-event.ajuste { background: #e0e7ff; color: #3730a3; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-tabs { display: none; }
+    .nav { justify-content: center; }
+    .hero h1 { font-size: 28px; }
+    .form-row { grid-template-columns: 1fr; }
+    .week-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .mobile-tabs {
+      display: flex !important;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(251,251,253,0.72);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-top: 0.5px solid rgba(0,0,0,0.08);
+      padding: 8px 0 env(safe-area-inset-bottom, 8px);
+      z-index: 100;
+      justify-content: space-around;
+    }
+
+    .mobile-tab {
+      display: flex; flex-direction: column; align-items: center;
+      font-size: 10px; color: var(--text2); border: none;
+      background: none; cursor: pointer; padding: 4px 8px;
+      font-family: var(--font);
+    }
+    .mobile-tab.active { color: var(--blue); }
+    .mobile-tab svg { width: 22px; height: 22px; margin-bottom: 2px; }
+
+    .container { padding-bottom: 90px; }
+  }
+
+  .mobile-tabs { display: none; }
+
+  /* TOGGLE */
+  .toggle-group {
+    display: flex; gap: 4px;
+    background: var(--bg);
+    border-radius: 10px; padding: 3px;
+    width: fit-content;
+  }
+
+  .toggle-btn {
+    padding: 6px 16px; border-radius: 8px; border: none;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    background: none; color: var(--text2);
+    font-family: var(--font);
+    transition: all 0.2s;
+  }
+  .toggle-btn.active { background: var(--card); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+
+  /* FILE INPUT */
+  .file-input-wrapper {
+    position: relative;
+  }
+  .file-input-wrapper input[type="file"] {
+    position: absolute; opacity: 0; width: 100%; height: 100%;
+    top: 0; left: 0; cursor: pointer;
+  }
+  .file-input-label {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 24px;
+    border: 2px dashed var(--border);
+    border-radius: 12px; color: var(--text2);
+    font-size: 14px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .file-input-label:hover { border-color: var(--blue); color: var(--blue); }
+
+  .preview-img {
+    max-width: 100%; border-radius: 12px; margin-top: 8px;
+  }
+
+  /* CHECKLIST */
+  .check-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 14px;
+  }
+
+  .check-item:last-child { border-bottom: none; }
+
+  .check-box {
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 2px solid var(--border);
+    cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .check-box.checked {
+    background: var(--blue); border-color: var(--blue);
+    color: #fff;
+  }
+
+  .check-text.done { text-decoration: line-through; color: var(--text2); }
+
+  /* DAILY PLANNER */
+  .plan-week {
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .plan-week-header {
+    background: var(--bg);
+    padding: 12px 16px;
+    font-size: 13px; font-weight: 700;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .plan-week-progress {
+    font-size: 12px; font-weight: 600;
+    color: var(--blue);
+  }
+
+  .plan-day {
+    display: grid;
+    grid-template-columns: 100px 1fr 40px;
+    gap: 0;
+    align-items: center;
+    border-top: 0.5px solid var(--border);
+    min-height: 48px;
+  }
+
+  .plan-day.today-row {
+    background: rgba(0,113,227,0.04);
+  }
+
+  .plan-day-label {
+    padding: 10px 16px;
+    font-size: 13px; font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    border-right: 0.5px solid var(--border);
+  }
+
+  .plan-day-label small {
+    display: block;
+    font-size: 11px; font-weight: 400;
+    color: var(--text2);
+  }
+
+  .plan-day-input {
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: var(--font);
+    border: none; outline: none;
+    background: transparent;
+    color: var(--text);
+    width: 100%;
+    letter-spacing: -0.01em;
+  }
+
+  .plan-day-input::placeholder {
+    color: var(--border);
+  }
+
+  .plan-day-check {
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .plan-flag {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .plan-flag.done {
+    background: var(--success);
+    border-color: var(--success);
+  }
+
+  .plan-flag svg {
+    width: 14px; height: 14px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 3;
+    opacity: 0;
+  }
+
+  .plan-flag.done svg { opacity: 1; }
+
+  .plan-day.weekend {
+    display: none;
+  }
+
+  .plan-day-label { cursor: pointer; }
+  .plan-day-label:hover { background: rgba(0,113,227,0.06); }
+
+  .ad-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 14px;
+  }
+
+  .ad-item:last-child { border-bottom: none; }
+
+  .ad-item-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+    font-weight: 600;
+  }
+
+  .ad-item-icon.atendimento { background: #d1fae5; color: #065f46; }
+  .ad-item-icon.visita { background: #e0e7ff; color: #3730a3; }
+  .ad-item-icon.abordagem { background: #fef3c7; color: #92400e; }
+  .ad-item-icon.contato { background: #fce7f3; color: #9d174d; }
+  .ad-item-icon.conteudo { background: #f3e8ff; color: #6b21a8; }
+  .ad-item-icon.outro { background: var(--bg); color: var(--text2); }
+
+  .ad-item-content { flex: 1; min-width: 0; }
+  .ad-item-name { font-weight: 600; font-size: 14px; }
+  .ad-item-sub { font-size: 12px; color: var(--text2); }
+
+  .ad-item-check {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border);
+    cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .ad-item-check.done {
+    background: var(--success); border-color: var(--success);
+  }
+
+  .ad-item-check svg {
+    width: 12px; height: 12px; stroke: #fff;
+    fill: none; stroke-width: 3; opacity: 0;
+  }
+
+  .ad-item-check.done svg { opacity: 1; }
+
+  @media (max-width: 768px) {
+    .plan-day {
+      grid-template-columns: 80px 1fr 36px;
+    }
+    .plan-day-label { padding: 8px 10px; font-size: 12px; }
+    .plan-day-input { font-size: 13px; padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">Loren Gianelli</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-page="dashboard">Dashboard</button>
+    <button class="nav-tab" data-page="agenda">Agenda</button>
+    <button class="nav-tab" data-page="clientes">Clientes</button>
+    <button class="nav-tab" data-page="regioes">Regioes</button>
+    <button class="nav-tab" data-page="portfolio">Portfolio</button>
+    <button class="nav-tab" data-page="estrategia">Estrategia</button>
+    <button class="nav-tab" data-page="metas">Metas</button>
+  </div>
+</nav>
+
+<!-- MOBILE TABS -->
+<div class="mobile-tabs">
+  <button class="mobile-tab active" data-page="dashboard">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Inicio
+  </button>
+  <button class="mobile-tab" data-page="agenda">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Agenda
+  </button>
+  <button class="mobile-tab" data-page="clientes">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Clientes
+  </button>
+  <button class="mobile-tab" data-page="portfolio">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    Fotos
+  </button>
+  <button class="mobile-tab" data-page="metas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    Metas
+  </button>
+</div>
+
+<!-- ====== DASHBOARD ====== -->
+<div class="container">
+<div id="page-dashboard" class="page active">
+  <div class="hero">
+    <h1>Loren Gianelli Vieira</h1>
+    <p>Designer de Sobrancelhas — Painel Estrategico</p>
+  </div>
+
+  <!-- Phase -->
+  <div class="phase-bar">
+    <div>
+      <div class="phase-label">Fase Atual</div>
+      <div class="phase-text" id="phase-name">Mes 1 — Prova Social</div>
+    </div>
+    <div class="phase-track" style="flex:1">
+      <div class="phase-fill" id="phase-fill" style="width: 0%"></div>
+    </div>
+    <div class="phase-text" id="phase-pct">0%</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number" id="stat-clientes">0</div>
+      <div class="stat-label">Clientes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="stat-atendimentos">0</div>
+      <div class="stat-label">Atendimentos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="stat-indicacoes">0</div>
+      <div class="stat-label">Indicacoes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="stat-provas">0</div>
+      <div class="stat-label">Provas Sociais</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="stat-abordagens">0</div>
+      <div class="stat-label">Abordagens</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="stat-regioes">0</div>
+      <div class="stat-label">Regioes Ativas</div>
+    </div>
+  </div>
+
+  <!-- Today -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title" id="today-title">Hoje</div>
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="toggle-today-type" onclick="toggleTodayType(this)">Todos</button>
+        <button class="toggle-btn" onclick="toggleTodayType(this)">Captacao</button>
+        <button class="toggle-btn" onclick="toggleTodayType(this)">Execucao</button>
+      </div>
+    </div>
+    <div id="today-list"></div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="card">
+    <div class="card-title" style="margin-bottom:16px">Acoes Rapidas</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-accent btn-sm" onclick="openModal('cliente')">+ Cliente</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('agendamento')">+ Agendamento</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('abordagem')">+ Abordagens do Dia</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('regiao')">+ Regiao</button>
+    </div>
+  </div>
+
+  <!-- Checklist Diario -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Checklist Diario</div>
+      <button class="btn btn-ghost btn-sm" onclick="resetChecklist()">Resetar</button>
+    </div>
+    <div id="checklist-container"></div>
+  </div>
+</div>
+
+<!-- ====== AGENDA ====== -->
+<div id="page-agenda" class="page">
+  <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:24px">Agenda</h2>
+
+  <!-- Calendar -->
+  <div class="card">
+    <div class="calendar-header">
+      <button class="btn btn-ghost" onclick="changeMonth(-1)">&larr;</button>
+      <div class="calendar-month" id="cal-month"></div>
+      <button class="btn btn-ghost" onclick="changeMonth(1)">&rarr;</button>
+    </div>
+    <div class="calendar-grid" id="cal-grid"></div>
+  </div>
+
+  <!-- Day Detail -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title" id="day-detail-title">Selecione um dia</div>
+      <button class="btn btn-accent btn-sm" onclick="openModal('agendamento')">+ Agendamento</button>
+    </div>
+    <div id="day-detail-list">
+      <div class="empty-state">
+        <div class="empty-state-icon">📅</div>
+        <div class="empty-state-text">Selecione um dia no calendario</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week View -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Visao Semanal</div>
+      <div class="toggle-group">
+        <button class="toggle-btn active" onclick="setDayType(this,'captacao')">Captacao</button>
+        <button class="toggle-btn" onclick="setDayType(this,'execucao')">Execucao</button>
+        <button class="toggle-btn" onclick="setDayType(this,'ajuste')">Ajuste</button>
+      </div>
+    </div>
+    <div class="week-grid" id="week-grid"></div>
+  </div>
+</div>
+
+<!-- ====== CLIENTES ====== -->
+<div id="page-clientes" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+    <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px">Clientes</h2>
+    <button class="btn btn-accent btn-sm" onclick="openModal('cliente')">+ Novo Cliente</button>
+  </div>
+
+  <div class="form-group">
+    <input class="form-input" type="text" placeholder="Buscar cliente..." id="search-cliente" oninput="renderClientes()">
+  </div>
+
+  <div class="card">
+    <div id="clientes-list"></div>
+  </div>
+</div>
+
+<!-- ====== REGIOES ====== -->
+<div id="page-regioes" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+    <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px">Regioes</h2>
+    <button class="btn btn-accent btn-sm" onclick="openModal('regiao')">+ Nova Regiao</button>
+  </div>
+
+  <div class="card">
+    <div id="regioes-list"></div>
+  </div>
+</div>
+
+<!-- ====== PORTFOLIO ====== -->
+<div id="page-portfolio" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+    <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px">Portfolio — Prova Social</h2>
+    <button class="btn btn-accent btn-sm" onclick="openModal('foto')">+ Adicionar Foto</button>
+  </div>
+
+  <div class="stats-grid" style="margin-bottom:24px">
+    <div class="stat-card">
+      <div class="stat-number" id="stat-fotos-antes">0</div>
+      <div class="stat-label">Fotos Antes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="stat-fotos-depois">0</div>
+      <div class="stat-label">Fotos Depois</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="stat-depoimentos">0</div>
+      <div class="stat-label">Depoimentos</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:16px">Galeria</div>
+    <div class="photos-grid" id="photos-grid"></div>
+  </div>
+</div>
+
+<!-- ====== ESTRATEGIA ====== -->
+<div id="page-estrategia" class="page">
+  <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:24px">Estrategia</h2>
+
+  <div class="strategy-card">
+    <div class="strategy-title">Fase 1 — Primeiros 2 Meses: Zero Cobranca</div>
+    <div class="strategy-desc">
+      Servico gratuito em troca de prova social + indicacao na rede social da cliente.
+      Se a cliente indicar outra que aceite a mesma troca, a cliente anterior ganha mais um atendimento.
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="strategy-title">Gerar Confianca Sem Experiencia</div>
+    <div class="strategy-desc">
+      • Estudar e demonstrar conhecimento tecnico na abordagem<br>
+      • Mostrar certificados de cursos (mesmo online)<br>
+      • Levar materiais profissionais visiveis<br>
+      • Falar com seguranca sobre o procedimento<br>
+      • Usar prova social das primeiras clientes imediatamente
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="strategy-title">Pontos de Abordagem em Curitiba</div>
+    <div class="strategy-desc">
+      • Terminais de onibus (fluxo alto)<br>
+      • Mercados e farmacias<br>
+      • Saloes pequenos (parceria)<br>
+      • Academias<br>
+      • Lojas de roupas femininas<br>
+      • Universidades
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="strategy-title">Contatos e Modelos</div>
+    <div class="strategy-desc">
+      Estrategia: contatar amigas e conhecidas em Curitiba para serem modelos
+      em troca de prova social. Cada modelo atendida gera conteudo + indicacao.
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="strategy-title">Visitas em Empresas</div>
+    <div class="strategy-desc">
+      Visitar empresas onde voce ou amigas conhecem pessoas / trabalham.
+      Pedir para a amiga abrir as portas para uma abordagem direta no local.
+      Oferecer atendimento coletivo (2-3 pessoas no mesmo dia/local).
+    </div>
+  </div>
+
+  <div class="strategy-card" style="border-left-color: #007aff">
+    <div class="strategy-title">Trafego Pago — Condicional (Mes 3+)</div>
+    <div class="strategy-desc">
+      <strong>REGRA:</strong> So investir em trafego pago se as metas dos meses 1 e 2 forem atingidas.<br><br>
+      <strong>Condicoes para liberar:</strong><br>
+      • 120 atendimentos concluidos<br>
+      • 20+ indicacoes recebidas<br>
+      • 30+ provas sociais (fotos antes/depois + depoimentos)<br><br>
+      <strong>Se liberado (Mes 3):</strong><br>
+      • Instagram Ads: R$15-20/dia<br>
+      • Publico: Mulheres 18-45, Curitiba, raio 15km das regioes ativas<br>
+      • Criativos: Fotos antes/depois reais + depoimentos<br>
+      • CTA: Link direto para agendamento na landing page<br><br>
+      <strong>Mes 4 (escala):</strong> R$30-50/dia + remarketing<br>
+      <strong>Mes 5 (premium):</strong> Lookalike das melhores clientes + posicionamento premium
+    </div>
+  </div>
+
+  <div class="strategy-card">
+    <div class="strategy-title">Script de Abordagem</div>
+    <div class="strategy-desc">
+      <strong>Captacao:</strong><br>
+      "Oi, tudo bem? Estou comecando como designer de sobrancelhas aqui na regiao
+      e estou pegando algumas modelos com atendimento gratuito pra montar meu portfolio.
+      Estou atendendo aqui perto, posso te explicar rapidinho?"<br><br>
+      <strong>Fechamento:</strong><br>
+      "Tenho alguns horarios disponiveis quando estiver atendendo aqui na regiao, quer garantir um?"<br><br>
+      <strong>WhatsApp:</strong><br>
+      "Essa semana estou atendendo por regioes em Curitiba, me fala seu bairro que vejo o melhor dia pra voce."
+    </div>
+  </div>
+
+  <!-- Notas da Estrategia -->
+  <div class="card" style="margin-top:16px">
+    <div class="card-header">
+      <div class="card-title">Minhas Notas</div>
+      <button class="btn btn-primary btn-sm" onclick="saveNotes()">Salvar</button>
+    </div>
+    <textarea class="form-textarea" id="strategy-notes" rows="6" placeholder="Anote ideias, ajustes, aprendizados..."></textarea>
+  </div>
+</div>
+
+<!-- ====== METAS ====== -->
+<div id="page-metas" class="page">
+  <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:24px">Metas e Evolucao</h2>
+
+  <!-- Monthly Goals -->
+  <div class="card">
+    <div class="card-title" style="margin-bottom:16px">Meta Mensal</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="meta-atendimentos">0 / 60</div>
+        <div class="stat-label">Atendimentos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="meta-indicacoes">0 / 20</div>
+        <div class="stat-label">Indicacoes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="meta-provas">0 / 30</div>
+        <div class="stat-label">Provas Sociais</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="meta-regioes">0 / 5</div>
+        <div class="stat-label">Regioes Cobertas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline 5 meses -->
+  <div class="card">
+    <div class="card-title" style="margin-bottom:16px">Visao 5 Meses</div>
+    <div id="timeline-container"></div>
+  </div>
+
+  <!-- Planejamento Diario 5 Meses -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Planejamento Diario</div>
+      <div class="toggle-group">
+        <button class="toggle-btn active" onclick="showPlanMonth(0,this)">Mes 1</button>
+        <button class="toggle-btn" onclick="showPlanMonth(1,this)">Mes 2</button>
+        <button class="toggle-btn" onclick="showPlanMonth(2,this)">Mes 3</button>
+        <button class="toggle-btn" onclick="showPlanMonth(3,this)">Mes 4</button>
+        <button class="toggle-btn" onclick="showPlanMonth(4,this)">Mes 5</button>
+      </div>
+    </div>
+    <div id="plan-daily-container"></div>
+  </div>
+
+  <!-- Weekly Log -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Registro Semanal</div>
+      <button class="btn btn-accent btn-sm" onclick="openModal('registro')">+ Registrar Semana</button>
+    </div>
+    <div id="weekly-log"></div>
+  </div>
+</div>
+</div><!-- /container -->
+
+<!-- ====== MODALS ====== -->
+
+<!-- Modal: Novo Cliente -->
+<div class="modal-overlay" id="modal-cliente">
+  <div class="modal">
+    <div class="modal-title">Novo Cliente</div>
+    <div class="form-group">
+      <label class="form-label">Nome</label>
+      <input class="form-input" id="c-nome" placeholder="Nome completo">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Telefone</label>
+        <input class="form-input" id="c-telefone" placeholder="(41) 99999-9999">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Instagram</label>
+        <input class="form-input" id="c-instagram" placeholder="@perfil">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Bairro</label>
+        <input class="form-input" id="c-bairro" placeholder="Bairro em Curitiba">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Origem</label>
+        <select class="form-select" id="c-origem">
+          <option value="abordagem">Abordagem na Rua</option>
+          <option value="indicacao">Indicacao</option>
+          <option value="amiga">Amiga/Conhecida</option>
+          <option value="empresa">Visita em Empresa</option>
+          <option value="instagram">Instagram</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Endereco Completo</label>
+      <input class="form-input" id="c-endereco" placeholder="Rua, numero, complemento">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descricao / Observacoes</label>
+      <textarea class="form-textarea" id="c-descricao" placeholder="Tipo de pele, preferencias, notas..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Indicada por</label>
+      <input class="form-input" id="c-indicadaPor" placeholder="Nome de quem indicou (se aplicavel)">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Foto do Cliente</label>
+      <div class="file-input-wrapper">
+        <div class="file-input-label" id="c-foto-label">Clique ou arraste uma foto</div>
+        <input type="file" accept="image/*" id="c-foto" onchange="previewFile(this,'c-foto-preview','c-foto-label')">
+      </div>
+      <img id="c-foto-preview" class="preview-img" style="display:none">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('cliente')">Cancelar</button>
+      <button class="btn btn-accent" onclick="saveCliente()">Salvar Cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Agendamento -->
+<div class="modal-overlay" id="modal-agendamento">
+  <div class="modal">
+    <div class="modal-title">Novo Agendamento</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data</label>
+        <input class="form-input" type="date" id="a-data">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Horario</label>
+        <input class="form-input" type="time" id="a-horario">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Cliente</label>
+      <select class="form-select" id="a-cliente"></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Servico</label>
+      <select class="form-select" id="a-servico">
+        <option value="sobrancelha">Design de Sobrancelha</option>
+        <option value="henna">Henna</option>
+        <option value="cilios">Cilios</option>
+        <option value="combo">Combo</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tipo</label>
+      <select class="form-select" id="a-tipo">
+        <option value="troca">Troca (Prova Social)</option>
+        <option value="pago">Pago</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Regiao/Bairro</label>
+        <input class="form-input" id="a-regiao" placeholder="Bairro do atendimento">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="a-status">
+          <option value="pendente">Pendente</option>
+          <option value="confirmado">Confirmado</option>
+          <option value="concluido">Concluido</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Categoria do Dia</label>
+      <select class="form-select" id="a-categoria">
+        <option value="execucao">Dia de Execucao</option>
+        <option value="captacao">Dia de Captacao</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Observacoes</label>
+      <textarea class="form-textarea" id="a-obs" placeholder="Notas sobre o atendimento..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('agendamento')">Cancelar</button>
+      <button class="btn btn-accent" onclick="saveAgendamento()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Abordagem -->
+<div class="modal-overlay" id="modal-abordagem">
+  <div class="modal">
+    <div class="modal-title">Registro de Abordagens</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data</label>
+        <input class="form-input" type="date" id="ab-data">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Quantidade</label>
+        <input class="form-input" type="number" id="ab-qtd" placeholder="25">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Conversas Reais</label>
+        <input class="form-input" type="number" id="ab-conversas" placeholder="10">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Agendamentos Fechados</label>
+        <input class="form-input" type="number" id="ab-fechados" placeholder="3">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Local / Regiao</label>
+      <input class="form-input" id="ab-local" placeholder="Terminal do Pinheirinho, Mercado X...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notas</label>
+      <textarea class="form-textarea" id="ab-notas" placeholder="O que funcionou, o que nao funcionou..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('abordagem')">Cancelar</button>
+      <button class="btn btn-accent" onclick="saveAbordagem()">Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Regiao -->
+<div class="modal-overlay" id="modal-regiao">
+  <div class="modal">
+    <div class="modal-title">Nova Regiao</div>
+    <div class="form-group">
+      <label class="form-label">Nome da Regiao / Bairro</label>
+      <input class="form-input" id="r-nome" placeholder="Pinheirinho, Centro, Boa Vista...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Pontos de Abordagem</label>
+      <textarea class="form-textarea" id="r-pontos" placeholder="Terminal, Mercado Condor, Academia X..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Contatos / Empresas na Regiao</label>
+      <textarea class="form-textarea" id="r-contatos" placeholder="Amiga Maria trabalha na empresa Y..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Dia da Semana Ideal</label>
+      <select class="form-select" id="r-dia">
+        <option value="">Nao definido</option>
+        <option value="seg">Segunda</option>
+        <option value="ter">Terca</option>
+        <option value="qua">Quarta</option>
+        <option value="qui">Quinta</option>
+        <option value="sex">Sexta</option>
+        <option value="sab">Sabado</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('regiao')">Cancelar</button>
+      <button class="btn btn-accent" onclick="saveRegiao()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Foto -->
+<div class="modal-overlay" id="modal-foto">
+  <div class="modal">
+    <div class="modal-title">Adicionar ao Portfolio</div>
+    <div class="form-group">
+      <label class="form-label">Cliente</label>
+      <select class="form-select" id="f-cliente"></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tipo</label>
+      <select class="form-select" id="f-tipo">
+        <option value="antes">Antes</option>
+        <option value="depois">Depois</option>
+        <option value="depoimento">Depoimento (print)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Foto</label>
+      <div class="file-input-wrapper">
+        <div class="file-input-label" id="f-foto-label">Clique ou arraste uma foto</div>
+        <input type="file" accept="image/*" id="f-foto" onchange="previewFile(this,'f-foto-preview','f-foto-label')">
+      </div>
+      <img id="f-foto-preview" class="preview-img" style="display:none">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descricao</label>
+      <textarea class="form-textarea" id="f-descricao" placeholder="Servico realizado, resultado..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('foto')">Cancelar</button>
+      <button class="btn btn-accent" onclick="saveFoto()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Registro Semanal -->
+<div class="modal-overlay" id="modal-registro">
+  <div class="modal">
+    <div class="modal-title">Registro Semanal</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Semana</label>
+        <input class="form-input" type="week" id="reg-semana">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Atendimentos</label>
+        <input class="form-input" type="number" id="reg-atend" placeholder="0">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Abordagens Totais</label>
+        <input class="form-input" type="number" id="reg-abord" placeholder="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Indicacoes Recebidas</label>
+        <input class="form-input" type="number" id="reg-indic" placeholder="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Aprendizados / Ajustes</label>
+      <textarea class="form-textarea" id="reg-notas" placeholder="O que aprendi essa semana..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('registro')">Cancelar</button>
+      <button class="btn btn-accent" onclick="saveRegistro()">Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ver Cliente -->
+<!-- Modal: Agenda do Dia -->
+<div class="modal-overlay" id="modal-agenda-dia">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-title" id="ad-titulo"></div>
+    <div id="ad-meta-box" style="padding:12px 16px;background:var(--bg);border-radius:12px;margin-bottom:20px">
+      <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;margin-bottom:4px">Meta do dia</div>
+      <div id="ad-meta-text" style="font-size:14px;line-height:1.5"></div>
+    </div>
+
+    <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;margin-bottom:8px">Atividades do dia</div>
+    <div id="ad-atividades-list"></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input class="form-input" id="ad-nova-atividade" placeholder="Adicionar atividade..." style="flex:1">
+      <select class="form-select" id="ad-tipo-atividade" style="width:auto;min-width:140px">
+        <option value="atendimento">Atendimento</option>
+        <option value="visita">Visita/Local</option>
+        <option value="abordagem">Abordagem</option>
+        <option value="contato">Contato/Pessoa</option>
+        <option value="conteudo">Conteúdo</option>
+        <option value="outro">Outro</option>
+      </select>
+      <button class="btn btn-accent btn-sm" onclick="addAtividade()">+</button>
+    </div>
+
+    <div style="margin-top:20px">
+      <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;margin-bottom:8px">Locais a visitar</div>
+      <div id="ad-locais-list"></div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input class="form-input" id="ad-novo-local" placeholder="Endereço ou nome do local..." style="flex:1">
+        <input class="form-input" id="ad-horario-local" type="time" style="width:100px">
+        <button class="btn btn-accent btn-sm" onclick="addLocal()">+</button>
+      </div>
+    </div>
+
+    <div style="margin-top:20px">
+      <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;margin-bottom:8px">Pessoas a atender</div>
+      <div id="ad-pessoas-list"></div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input class="form-input" id="ad-nova-pessoa" placeholder="Nome da pessoa..." style="flex:1">
+        <input class="form-input" id="ad-servico-pessoa" placeholder="Serviço" style="width:140px">
+        <button class="btn btn-accent btn-sm" onclick="addPessoa()">+</button>
+      </div>
+    </div>
+
+    <div style="margin-top:20px">
+      <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;margin-bottom:8px">Anotações</div>
+      <textarea class="form-textarea" id="ad-notas" placeholder="Observações, aprendizados, ajustes..." rows="3" onchange="saveAgendaDiaNotas()"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('agenda-dia')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ver-cliente">
+  <div class="modal">
+    <div class="modal-title" id="vc-nome"></div>
+    <div id="vc-content"></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="vc-delete-btn">Excluir</button>
+      <button class="btn btn-ghost" onclick="closeModal('ver-cliente')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ====== DATA STORE ======
+const KEYS = {
+  clientes: 'lgv_clientes',
+  agendamentos: 'lgv_agendamentos',
+  abordagens: 'lgv_abordagens',
+  regioes: 'lgv_regioes',
+  fotos: 'lgv_fotos',
+  registros: 'lgv_registros',
+  checklist: 'lgv_checklist',
+  notes: 'lgv_notes',
+  dayTypes: 'lgv_dayTypes',
+  dailyPlan: 'lgv_dailyPlan',
+  agendaDia: 'lgv_agendaDia'
+};
+
+function getData(key) {
+  try { return JSON.parse(localStorage.getItem(key)) || []; }
+  catch { return []; }
+}
+
+function setData(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+// ====== NAVIGATION ======
+const allTabs = document.querySelectorAll('.nav-tab, .mobile-tab');
+const pages = document.querySelectorAll('.page');
+
+allTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const page = tab.dataset.page;
+    allTabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll(`[data-page="${page}"]`).forEach(t => t.classList.add('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    refreshPage(page);
+  });
+});
+
+function refreshPage(page) {
+  if (page === 'dashboard') refreshDashboard();
+  if (page === 'agenda') { renderCalendar(); renderWeek(); }
+  if (page === 'clientes') renderClientes();
+  if (page === 'regioes') renderRegioes();
+  if (page === 'portfolio') renderPortfolio();
+  if (page === 'estrategia') loadNotes();
+  if (page === 'metas') renderMetas();
+}
+
+// ====== MODALS ======
+function openModal(name) {
+  document.getElementById('modal-' + name).classList.add('active');
+  if (name === 'agendamento' || name === 'foto') populateClienteSelect(name === 'agendamento' ? 'a-cliente' : 'f-cliente');
+  if (name === 'agendamento') {
+    document.getElementById('a-data').value = selectedDate || todayStr();
+  }
+  if (name === 'abordagem') {
+    document.getElementById('ab-data').value = todayStr();
+  }
+}
+
+function closeModal(name) {
+  document.getElementById('modal-' + name).classList.remove('active');
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => {
+    if (e.target === m) m.classList.remove('active');
+  });
+});
+
+function populateClienteSelect(id) {
+  const clientes = getData(KEYS.clientes);
+  const sel = document.getElementById(id);
+  sel.innerHTML = '<option value="">Selecione...</option>' +
+    clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
+}
+
+// ====== HELPERS ======
+function todayStr() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function genId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2,5);
+}
+
+function formatDate(str) {
+  if (!str) return '';
+  const [y,m,d] = str.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function getInitials(name) {
+  return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+}
+
+function previewFile(input, previewId, labelId) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById(labelId).textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function getFileData(inputId) {
+  return new Promise(resolve => {
+    const input = document.getElementById(inputId);
+    if (!input.files[0]) return resolve(null);
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.readAsDataURL(input.files[0]);
+  });
+}
+
+// ====== SAVE FUNCTIONS ======
+async function saveCliente() {
+  const foto = await getFileData('c-foto');
+  const cliente = {
+    id: genId(),
+    nome: document.getElementById('c-nome').value,
+    telefone: document.getElementById('c-telefone').value,
+    instagram: document.getElementById('c-instagram').value,
+    bairro: document.getElementById('c-bairro').value,
+    endereco: document.getElementById('c-endereco').value,
+    origem: document.getElementById('c-origem').value,
+    descricao: document.getElementById('c-descricao').value,
+    indicadaPor: document.getElementById('c-indicadaPor').value,
+    foto: foto,
+    criadoEm: todayStr(),
+    atendimentos: 0
+  };
+  if (!cliente.nome) return alert('Nome e obrigatorio');
+  const arr = getData(KEYS.clientes);
+  arr.push(cliente);
+  setData(KEYS.clientes, arr);
+  closeModal('cliente');
+  // reset
+  ['c-nome','c-telefone','c-instagram','c-bairro','c-endereco','c-descricao','c-indicadaPor'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('c-foto').value = '';
+  document.getElementById('c-foto-preview').style.display = 'none';
+  document.getElementById('c-foto-label').textContent = 'Clique ou arraste uma foto';
+  refreshDashboard();
+}
+
+function saveAgendamento() {
+  const ag = {
+    id: genId(),
+    data: document.getElementById('a-data').value,
+    horario: document.getElementById('a-horario').value,
+    clienteId: document.getElementById('a-cliente').value,
+    servico: document.getElementById('a-servico').value,
+    tipo: document.getElementById('a-tipo').value,
+    regiao: document.getElementById('a-regiao').value,
+    status: document.getElementById('a-status').value,
+    categoria: document.getElementById('a-categoria').value,
+    obs: document.getElementById('a-obs').value
+  };
+  if (!ag.data) return alert('Data e obrigatoria');
+  const arr = getData(KEYS.agendamentos);
+  arr.push(ag);
+  setData(KEYS.agendamentos, arr);
+  closeModal('agendamento');
+  ['a-horario','a-regiao','a-obs'].forEach(id => document.getElementById(id).value = '');
+  refreshDashboard();
+}
+
+function saveAbordagem() {
+  const ab = {
+    id: genId(),
+    data: document.getElementById('ab-data').value,
+    quantidade: parseInt(document.getElementById('ab-qtd').value) || 0,
+    conversas: parseInt(document.getElementById('ab-conversas').value) || 0,
+    fechados: parseInt(document.getElementById('ab-fechados').value) || 0,
+    local: document.getElementById('ab-local').value,
+    notas: document.getElementById('ab-notas').value
+  };
+  const arr = getData(KEYS.abordagens);
+  arr.push(ab);
+  setData(KEYS.abordagens, arr);
+  closeModal('abordagem');
+  refreshDashboard();
+}
+
+function saveRegiao() {
+  const reg = {
+    id: genId(),
+    nome: document.getElementById('r-nome').value,
+    pontos: document.getElementById('r-pontos').value,
+    contatos: document.getElementById('r-contatos').value,
+    dia: document.getElementById('r-dia').value
+  };
+  if (!reg.nome) return alert('Nome e obrigatorio');
+  const arr = getData(KEYS.regioes);
+  arr.push(reg);
+  setData(KEYS.regioes, arr);
+  closeModal('regiao');
+  ['r-nome','r-pontos','r-contatos'].forEach(id => document.getElementById(id).value = '');
+  refreshDashboard();
+}
+
+async function saveFoto() {
+  const fotoData = await getFileData('f-foto');
+  const foto = {
+    id: genId(),
+    clienteId: document.getElementById('f-cliente').value,
+    tipo: document.getElementById('f-tipo').value,
+    foto: fotoData,
+    descricao: document.getElementById('f-descricao').value,
+    data: todayStr()
+  };
+  const arr = getData(KEYS.fotos);
+  arr.push(foto);
+  setData(KEYS.fotos, arr);
+  closeModal('foto');
+  document.getElementById('f-foto').value = '';
+  document.getElementById('f-foto-preview').style.display = 'none';
+  document.getElementById('f-foto-label').textContent = 'Clique ou arraste uma foto';
+  document.getElementById('f-descricao').value = '';
+  renderPortfolio();
+}
+
+function saveRegistro() {
+  const reg = {
+    id: genId(),
+    semana: document.getElementById('reg-semana').value,
+    atendimentos: parseInt(document.getElementById('reg-atend').value) || 0,
+    abordagens: parseInt(document.getElementById('reg-abord').value) || 0,
+    indicacoes: parseInt(document.getElementById('reg-indic').value) || 0,
+    notas: document.getElementById('reg-notas').value
+  };
+  const arr = getData(KEYS.registros);
+  arr.push(reg);
+  setData(KEYS.registros, arr);
+  closeModal('registro');
+  renderMetas();
+}
+
+function saveNotes() {
+  localStorage.setItem(KEYS.notes, document.getElementById('strategy-notes').value);
+  alert('Notas salvas!');
+}
+
+function loadNotes() {
+  document.getElementById('strategy-notes').value = localStorage.getItem(KEYS.notes) || '';
+}
+
+// ====== DASHBOARD ======
+function refreshDashboard() {
+  const clientes = getData(KEYS.clientes);
+  const agendamentos = getData(KEYS.agendamentos);
+  const abordagens = getData(KEYS.abordagens);
+  const regioes = getData(KEYS.regioes);
+  const fotos = getData(KEYS.fotos);
+
+  document.getElementById('stat-clientes').textContent = clientes.length;
+  document.getElementById('stat-atendimentos').textContent = agendamentos.filter(a => a.status === 'concluido').length;
+  document.getElementById('stat-indicacoes').textContent = clientes.filter(c => c.origem === 'indicacao').length;
+  document.getElementById('stat-provas').textContent = fotos.length;
+  document.getElementById('stat-abordagens').textContent = abordagens.reduce((s,a) => s + a.quantidade, 0);
+  document.getElementById('stat-regioes').textContent = regioes.length;
+
+  // Phase
+  const totalAtend = agendamentos.filter(a => a.status === 'concluido').length;
+  let phase, pct;
+  if (totalAtend < 60) { phase = 'Mes 1 — Prova Social (Gratuito)'; pct = Math.round((totalAtend/60)*100); }
+  else if (totalAtend < 120) { phase = 'Mes 2 — Prova Social (Gratuito)'; pct = Math.round(((totalAtend-60)/60)*100); }
+  else if (totalAtend < 200) { phase = 'Mes 3 — Transicao p/ Pago'; pct = Math.round(((totalAtend-120)/80)*100); }
+  else if (totalAtend < 300) { phase = 'Mes 4 — Consolidacao'; pct = Math.round(((totalAtend-200)/100)*100); }
+  else { phase = 'Mes 5+ — Crescimento'; pct = 100; }
+  document.getElementById('phase-name').textContent = phase;
+  document.getElementById('phase-fill').style.width = Math.min(pct,100) + '%';
+  document.getElementById('phase-pct').textContent = Math.min(pct,100) + '%';
+
+  // Today title
+  const today = new Date();
+  const dias = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
+  document.getElementById('today-title').textContent = `Hoje — ${dias[today.getDay()]}, ${formatDate(todayStr())}`;
+
+  // Today list
+  renderTodayList(agendamentos);
+
+  // Checklist
+  renderChecklist();
+}
+
+function renderTodayList(agendamentos) {
+  const today = todayStr();
+  const todayAgs = agendamentos.filter(a => a.data === today);
+  const clientes = getData(KEYS.clientes);
+  const container = document.getElementById('today-list');
+
+  if (todayAgs.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><div class="empty-state-text">Nenhum agendamento para hoje</div></div>';
+    return;
+  }
+
+  container.innerHTML = todayAgs.sort((a,b) => (a.horario||'').localeCompare(b.horario||'')).map(ag => {
+    const cliente = clientes.find(c => c.id === ag.clienteId);
+    const nome = cliente ? cliente.nome : 'Cliente nao vinculado';
+    return `<div class="list-item">
+      <div class="list-avatar">${cliente ? getInitials(nome) : '?'}</div>
+      <div class="list-content">
+        <div class="list-name">${ag.horario || '--:--'} — ${nome}</div>
+        <div class="list-sub">${ag.servico} • ${ag.regiao || 'Sem regiao'}</div>
+      </div>
+      <span class="badge badge-${ag.status}">${ag.status}</span>
+      <span class="badge badge-${ag.tipo}">${ag.tipo}</span>
+      <div class="list-actions">
+        <button class="btn btn-ghost btn-sm" onclick="updateAgStatus('${ag.id}','concluido')">✓</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateAgStatus(id, status) {
+  const arr = getData(KEYS.agendamentos);
+  const ag = arr.find(a => a.id === id);
+  if (ag) ag.status = status;
+  setData(KEYS.agendamentos, arr);
+  refreshDashboard();
+}
+
+function toggleTodayType(btn) {
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // filter logic could be added here
+}
+
+// ====== CHECKLIST ======
+const defaultChecklist = [
+  'Revisar agenda do dia',
+  'Separar materiais',
+  'Confirmar agendamentos (WhatsApp)',
+  'Registrar abordagens',
+  'Tirar fotos antes/depois',
+  'Postar prova social',
+  'Atualizar contatos de novos leads',
+  'Planejar regiao do proximo dia'
+];
+
+function renderChecklist() {
+  const today = todayStr();
+  let saved = JSON.parse(localStorage.getItem(KEYS.checklist + '_' + today) || 'null');
+  if (!saved) saved = defaultChecklist.map((t,i) => ({ text: t, done: false }));
+
+  document.getElementById('checklist-container').innerHTML = saved.map((item, i) =>
+    `<div class="check-item">
+      <div class="check-box ${item.done ? 'checked' : ''}" onclick="toggleCheck(${i})">
+        ${item.done ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+      </div>
+      <span class="check-text ${item.done ? 'done' : ''}">${item.text}</span>
+    </div>`
+  ).join('');
+}
+
+function toggleCheck(index) {
+  const today = todayStr();
+  let saved = JSON.parse(localStorage.getItem(KEYS.checklist + '_' + today) || 'null');
+  if (!saved) saved = defaultChecklist.map(t => ({ text: t, done: false }));
+  saved[index].done = !saved[index].done;
+  localStorage.setItem(KEYS.checklist + '_' + today, JSON.stringify(saved));
+  renderChecklist();
+}
+
+function resetChecklist() {
+  localStorage.removeItem(KEYS.checklist + '_' + todayStr());
+  renderChecklist();
+}
+
+// ====== CALENDAR ======
+let calYear, calMonth;
+let selectedDate = null;
+
+function initCalendar() {
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  renderCalendar();
+}
+
+function changeMonth(delta) {
+  calMonth += delta;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const meses = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  document.getElementById('cal-month').textContent = `${meses[calMonth]} ${calYear}`;
+
+  const agendamentos = getData(KEYS.agendamentos);
+  const agDates = new Set(agendamentos.map(a => a.data));
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const today = todayStr();
+
+  let html = ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'].map(d => `<div class="calendar-day-name">${d}</div>`).join('');
+
+  for (let i = 0; i < firstDay; i++) {
+    html += `<div class="calendar-day other-month"></div>`;
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = dateStr === today;
+    const isSelected = dateStr === selectedDate;
+    const hasDot = agDates.has(dateStr);
+    html += `<div class="calendar-day ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}" onclick="selectDate('${dateStr}')">
+      ${d}${hasDot ? '<div class="dot"></div>' : ''}
+    </div>`;
+  }
+
+  document.getElementById('cal-grid').innerHTML = html;
+}
+
+function selectDate(dateStr) {
+  selectedDate = dateStr;
+  renderCalendar();
+  renderDayDetail(dateStr);
+}
+
+function renderDayDetail(dateStr) {
+  const agendamentos = getData(KEYS.agendamentos).filter(a => a.data === dateStr);
+  const clientes = getData(KEYS.clientes);
+  document.getElementById('day-detail-title').textContent = formatDate(dateStr);
+
+  if (agendamentos.length === 0) {
+    document.getElementById('day-detail-list').innerHTML = '<div class="empty-state"><div class="empty-state-text">Nenhum agendamento</div></div>';
+    return;
+  }
+
+  document.getElementById('day-detail-list').innerHTML = agendamentos.sort((a,b) => (a.horario||'').localeCompare(b.horario||'')).map(ag => {
+    const cliente = clientes.find(c => c.id === ag.clienteId);
+    const nome = cliente ? cliente.nome : 'N/A';
+    return `<div class="list-item">
+      <div class="list-avatar">${cliente ? getInitials(nome) : '?'}</div>
+      <div class="list-content">
+        <div class="list-name">${ag.horario || '--:--'} — ${nome}</div>
+        <div class="list-sub">${ag.servico} • ${ag.regiao || ''} • <span class="badge badge-${ag.tipo}">${ag.tipo}</span></div>
+      </div>
+      <span class="badge badge-${ag.status}">${ag.status}</span>
+      <div class="list-actions">
+        <button class="btn btn-ghost btn-sm" onclick="updateAgStatus('${ag.id}','confirmado')">✓</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteAgendamento('${ag.id}')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function deleteAgendamento(id) {
+  let arr = getData(KEYS.agendamentos);
+  arr = arr.filter(a => a.id !== id);
+  setData(KEYS.agendamentos, arr);
+  if (selectedDate) renderDayDetail(selectedDate);
+  refreshDashboard();
+}
+
+// ====== WEEK VIEW ======
+function renderWeek() {
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+
+  const agendamentos = getData(KEYS.agendamentos);
+  const clientes = getData(KEYS.clientes);
+  const today = todayStr();
+  const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
+
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(startOfWeek);
+    d.setDate(startOfWeek.getDate() + i);
+    const dateStr = d.toISOString().split('T')[0];
+    const isToday = dateStr === today;
+    const dayAgs = agendamentos.filter(a => a.data === dateStr);
+
+    html += `<div class="week-day ${isToday ? 'today-col' : ''}">
+      <div class="week-day-header">${dias[i]}</div>
+      <div class="week-day-number">${d.getDate()}</div>
+      ${dayAgs.map(ag => {
+        const c = clientes.find(c => c.id === ag.clienteId);
+        return `<div class="week-event ${ag.categoria}" onclick="selectDate('${dateStr}')">${ag.horario || ''} ${c ? c.nome.split(' ')[0] : ''}</div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  document.getElementById('week-grid').innerHTML = html;
+}
+
+function setDayType(btn) {
+  btn.parentElement.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ====== CLIENTES ======
+function renderClientes() {
+  const clientes = getData(KEYS.clientes);
+  const search = (document.getElementById('search-cliente')?.value || '').toLowerCase();
+  const filtered = clientes.filter(c => c.nome.toLowerCase().includes(search));
+
+  if (filtered.length === 0) {
+    document.getElementById('clientes-list').innerHTML = '<div class="empty-state"><div class="empty-state-icon">👤</div><div class="empty-state-text">Nenhum cliente cadastrado</div></div>';
+    return;
+  }
+
+  document.getElementById('clientes-list').innerHTML = filtered.map(c =>
+    `<div class="list-item" style="cursor:pointer" onclick="viewCliente('${c.id}')">
+      <div class="list-avatar">${c.foto ? `<img src="${c.foto}">` : getInitials(c.nome)}</div>
+      <div class="list-content">
+        <div class="list-name">${c.nome}</div>
+        <div class="list-sub">${c.bairro || ''} • ${c.instagram || ''} • ${c.origem}</div>
+      </div>
+      <span class="badge badge-${c.origem === 'indicacao' ? 'confirmado' : 'pendente'}">${c.origem}</span>
+    </div>`
+  ).join('');
+}
+
+function viewCliente(id) {
+  const clientes = getData(KEYS.clientes);
+  const c = clientes.find(cl => cl.id === id);
+  if (!c) return;
+
+  document.getElementById('vc-nome').textContent = c.nome;
+
+  const agendamentos = getData(KEYS.agendamentos).filter(a => a.clienteId === id);
+  const fotos = getData(KEYS.fotos).filter(f => f.clienteId === id);
+
+  let html = `
+    <div style="display:flex;gap:16px;margin-bottom:20px;align-items:center">
+      <div class="list-avatar" style="width:64px;height:64px;font-size:24px;border-radius:50%">
+        ${c.foto ? `<img src="${c.foto}">` : getInitials(c.nome)}
+      </div>
+      <div>
+        <div style="font-size:14px;color:var(--text2)">${c.telefone || ''} ${c.instagram ? '• ' + c.instagram : ''}</div>
+        <div style="font-size:14px;color:var(--text2)">${c.bairro || ''} ${c.endereco ? '• ' + c.endereco : ''}</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:4px">Origem: ${c.origem} ${c.indicadaPor ? '• Indicada por: ' + c.indicadaPor : ''}</div>
+      </div>
+    </div>
+    ${c.descricao ? `<div style="padding:12px 16px;background:var(--bg);border-radius:12px;font-size:14px;margin-bottom:16px">${c.descricao}</div>` : ''}
+    <div style="font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;margin-bottom:8px">Agendamentos (${agendamentos.length})</div>
+    ${agendamentos.length ? agendamentos.map(a => `<div class="list-item"><div class="list-content"><div class="list-name">${formatDate(a.data)} ${a.horario || ''}</div><div class="list-sub">${a.servico} • <span class="badge badge-${a.status}">${a.status}</span> • <span class="badge badge-${a.tipo}">${a.tipo}</span></div></div></div>`).join('') : '<div style="color:var(--text2);font-size:14px;padding:8px 0">Nenhum agendamento</div>'}
+    ${fotos.length ? `<div style="font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;margin:16px 0 8px">Fotos (${fotos.length})</div><div class="photos-grid">${fotos.map(f => f.foto ? `<div class="photo-thumb"><img src="${f.foto}"><div class="photo-label">${f.tipo}</div></div>` : '').join('')}</div>` : ''}
+  `;
+
+  document.getElementById('vc-content').innerHTML = html;
+  document.getElementById('vc-delete-btn').onclick = () => {
+    if (confirm('Excluir ' + c.nome + '?')) {
+      setData(KEYS.clientes, clientes.filter(cl => cl.id !== id));
+      closeModal('ver-cliente');
+      renderClientes();
+      refreshDashboard();
+    }
+  };
+  document.getElementById('modal-ver-cliente').classList.add('active');
+}
+
+// ====== REGIOES ======
+function renderRegioes() {
+  const regioes = getData(KEYS.regioes);
+  const clientes = getData(KEYS.clientes);
+  const abordagens = getData(KEYS.abordagens);
+  const dias = { seg:'Segunda', ter:'Terca', qua:'Quarta', qui:'Quinta', sex:'Sexta', sab:'Sabado' };
+
+  if (regioes.length === 0) {
+    document.getElementById('regioes-list').innerHTML = '<div class="empty-state"><div class="empty-state-icon">📍</div><div class="empty-state-text">Nenhuma regiao cadastrada</div></div>';
+    return;
+  }
+
+  document.getElementById('regioes-list').innerHTML = regioes.map(r => {
+    const clientesRegiao = clientes.filter(c => c.bairro && c.bairro.toLowerCase().includes(r.nome.toLowerCase())).length;
+    return `<div class="list-item">
+      <div class="list-avatar" style="border-radius:12px">${r.nome.slice(0,2).toUpperCase()}</div>
+      <div class="list-content">
+        <div class="list-name">${r.nome} ${r.dia ? '• ' + dias[r.dia] : ''}</div>
+        <div class="list-sub">${clientesRegiao} clientes • ${r.pontos ? r.pontos.split('\n')[0] : 'Sem pontos definidos'}</div>
+      </div>
+      <div class="list-actions">
+        <button class="btn btn-danger btn-sm" onclick="deleteRegiao('${r.id}')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function deleteRegiao(id) {
+  setData(KEYS.regioes, getData(KEYS.regioes).filter(r => r.id !== id));
+  renderRegioes();
+  refreshDashboard();
+}
+
+// ====== PORTFOLIO ======
+function renderPortfolio() {
+  const fotos = getData(KEYS.fotos);
+  const clientes = getData(KEYS.clientes);
+
+  document.getElementById('stat-fotos-antes').textContent = fotos.filter(f => f.tipo === 'antes').length;
+  document.getElementById('stat-fotos-depois').textContent = fotos.filter(f => f.tipo === 'depois').length;
+  document.getElementById('stat-depoimentos').textContent = fotos.filter(f => f.tipo === 'depoimento').length;
+
+  if (fotos.length === 0) {
+    document.getElementById('photos-grid').innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📸</div><div class="empty-state-text">Nenhuma foto no portfolio</div></div>';
+    return;
+  }
+
+  document.getElementById('photos-grid').innerHTML = fotos.map(f => {
+    const c = clientes.find(c => c.id === f.clienteId);
+    return f.foto ? `<div class="photo-thumb" onclick="if(confirm('Excluir foto?')){deletePhoto('${f.id}')}">
+      <img src="${f.foto}">
+      <div class="photo-label">${f.tipo} ${c ? '• ' + c.nome.split(' ')[0] : ''}</div>
+    </div>` : '';
+  }).join('');
+}
+
+function deletePhoto(id) {
+  setData(KEYS.fotos, getData(KEYS.fotos).filter(f => f.id !== id));
+  renderPortfolio();
+  refreshDashboard();
+}
+
+// ====== METAS ======
+function renderMetas() {
+  const agendamentos = getData(KEYS.agendamentos);
+  const clientes = getData(KEYS.clientes);
+  const fotos = getData(KEYS.fotos);
+  const regioes = getData(KEYS.regioes);
+  const registros = getData(KEYS.registros);
+
+  const concluidos = agendamentos.filter(a => a.status === 'concluido').length;
+  const indicacoes = clientes.filter(c => c.origem === 'indicacao').length;
+
+  document.getElementById('meta-atendimentos').textContent = `${concluidos} / 60`;
+  document.getElementById('meta-indicacoes').textContent = `${indicacoes} / 20`;
+  document.getElementById('meta-provas').textContent = `${fotos.length} / 30`;
+  document.getElementById('meta-regioes').textContent = `${regioes.length} / 5`;
+
+  // Timeline
+  const totalIndicacoes = indicacoes;
+  const metaM1M2 = concluidos >= 120 && totalIndicacoes >= 20 && fotos.length >= 30;
+
+  const timeline = [
+    { mes: 'Mes 1', titulo: 'Sobrevivencia + Prova Social', desc: 'Captacao forte, servico gratuito, montar portfolio. Zero cobranca — troca por prova social e indicacao.', meta: '60 atendimentos gratuitos' },
+    { mes: 'Mes 2', titulo: 'Prova Social + Indicacoes', desc: 'Continuar gratuito, rede de indicacoes ativa. Cliente que indicar outra ganha mais um atendimento gratis.', meta: 'Base de 40+ clientes, 20+ indicacoes' },
+    { mes: 'Mes 3', titulo: metaM1M2 ? 'Transicao + Trafego Pago LIBERADO' : 'Transicao para Pago (Trafego Pago BLOQUEADO)', desc: metaM1M2 ? 'META DOS 2 PRIMEIROS MESES ATINGIDA! Trafego pago liberado. Comecar anuncios no Instagram/Facebook com as provas sociais coletadas. Orcamento inicial: R$15-20/dia focado na regiao de Curitiba.' : 'Trafego pago so sera liberado quando as metas dos meses 1 e 2 forem atingidas (120 atendimentos + 20 indicacoes + 30 provas sociais). Foco: comecar a cobrar com base organica.', meta: metaM1M2 ? 'R$3.000+ (organico + pago)' : 'R$3.000+ (somente organico)' },
+    { mes: 'Mes 4', titulo: 'Consolidacao + Escala', desc: 'Agenda mais cheia, menos captacao ativa. Se trafego pago ativo: escalar orcamento para R$30-50/dia. Remarketing para clientes anteriores.', meta: 'R$4.500+' },
+    { mes: 'Mes 5', titulo: 'Premium + Crescimento', desc: 'Agenda lotada, preco premium. Trafego pago otimizado com publico semelhante das melhores clientes. Posicionamento de alto valor.', meta: 'R$6.000+' }
+  ];
+
+  document.getElementById('timeline-container').innerHTML = timeline.map((t,i) => {
+    let borderColor = i < 2 ? 'var(--accent)' : (i === 2 && metaM1M2 ? 'var(--success)' : 'var(--border)');
+    let badgeClass = i < 2 ? 'badge-captacao' : (i === 2 && metaM1M2 ? 'badge-confirmado' : 'badge-pendente');
+    let badgeText = i < 2 ? 'FASE ATUAL' : (i === 2 && metaM1M2 ? 'TRAFEGO PAGO ON' : (i === 2 ? 'TRAFEGO BLOQUEADO' : 'FUTURO'));
+    return `<div class="strategy-card" style="border-left-color: ${borderColor}">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div class="strategy-title">${t.mes} — ${t.titulo}</div>
+        <span class="badge ${badgeClass}">${badgeText}</span>
+      </div>
+      <div class="strategy-desc">${t.desc}<br><strong>Meta: ${t.meta}</strong></div>
+    </div>`;
+  }).join('');
+
+  // Trafego pago status card
+  document.getElementById('timeline-container').innerHTML += `
+    <div class="card" style="margin-top:16px;border:2px solid ${metaM1M2 ? 'var(--success)' : 'var(--danger)'}">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <span style="font-size:28px">${metaM1M2 ? '🟢' : '🔴'}</span>
+        <div>
+          <div style="font-size:18px;font-weight:700">${metaM1M2 ? 'Trafego Pago: LIBERADO' : 'Trafego Pago: BLOQUEADO'}</div>
+          <div style="font-size:13px;color:var(--text2)">Condicao: 120 atendimentos + 20 indicacoes + 30 provas sociais nos meses 1-2</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:12px">
+          <div style="font-size:20px;font-weight:700;color:${concluidos >= 120 ? 'var(--success)' : 'var(--danger)'}">${concluidos}/120</div>
+          <div style="font-size:11px;color:var(--text2)">ATENDIMENTOS</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:12px">
+          <div style="font-size:20px;font-weight:700;color:${totalIndicacoes >= 20 ? 'var(--success)' : 'var(--danger)'}">${totalIndicacoes}/20</div>
+          <div style="font-size:11px;color:var(--text2)">INDICACOES</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:12px">
+          <div style="font-size:20px;font-weight:700;color:${fotos.length >= 30 ? 'var(--success)' : 'var(--danger)'}">${fotos.length}/30</div>
+          <div style="font-size:11px;color:var(--text2)">PROVAS SOCIAIS</div>
+        </div>
+      </div>
+    </div>`;
+
+  // Weekly log
+  if (registros.length === 0) {
+    document.getElementById('weekly-log').innerHTML = '<div class="empty-state"><div class="empty-state-text">Nenhum registro semanal</div></div>';
+  } else {
+    document.getElementById('weekly-log').innerHTML = registros.sort((a,b) => b.semana.localeCompare(a.semana)).map(r =>
+      `<div class="list-item">
+        <div class="list-content">
+          <div class="list-name">Semana ${r.semana}</div>
+          <div class="list-sub">${r.atendimentos} atend. • ${r.abordagens} abord. • ${r.indicacoes} indic.</div>
+          ${r.notas ? `<div style="font-size:13px;color:var(--text2);margin-top:4px">${r.notas}</div>` : ''}
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="deleteRegistro('${r.id}')">✕</button>
+      </div>`
+    ).join('');
+  }
+}
+
+function deleteRegistro(id) {
+  setData(KEYS.registros, getData(KEYS.registros).filter(r => r.id !== id));
+  renderMetas();
+}
+
+// ====== DAILY PLANNER ======
+let currentPlanMonth = 0;
+const PLAN_START = new Date(2026, 3, 13); // 13 de abril de 2026
+
+function getDefaultPlan() {
+  const defaults = {};
+  const start = new Date(2026, 3, 13); // 13/04/2026
+  const diasSemana = ['dom','seg','ter','qua','qui','sex','sab'];
+
+  // --- MES 1: Sobrevivencia + Prova Social (gratuito, troca) ---
+  const m1 = [
+    // Semana 1
+    'CAPTAÇÃO PESADA: 25-35 abordagens na rua (terminal/mercado). Meta: 8-12 conversas, fechar 3-5 agendamentos',
+    'EXECUÇÃO: Atender 2-4 clientes. Registrar foto antes/depois + vídeo curto + depoimento',
+    'CAPTAÇÃO: 25-30 abordagens. Agora falar "já atendi clientes essa semana". Meta: 5+ agendamentos',
+    'EXECUÇÃO: 3-4 atendimentos. Fotos + stories das clientes. Pedir indicação no final',
+    'CAPTAÇÃO: 20-30 abordagens. Fechar agenda do fim de semana. Postar resultados da semana',
+    null, null, // fim de semana
+    // Semana 2
+    'CAPTAÇÃO: 25 abordagens em 1 bairro novo. Foco em criar demanda local. Levar portfólio no celular',
+    'EXECUÇÃO: 3-5 atendimentos agrupados por região. Registrar tudo. Pedir story de cada cliente',
+    'CAPTAÇÃO: Visitar empresa que amiga trabalha. Oferecer atendimento coletivo. 20 abordagens na região',
+    'EXECUÇÃO: 3-4 atendimentos. Enviar LP no WhatsApp para leads frios da semana',
+    'CAPTAÇÃO + CONTEÚDO: 15-20 abordagens + postar 3 antes/depois no Instagram. Reagendar quem não veio',
+    null, null,
+    // Semana 3
+    'CAPTAÇÃO: 20-25 abordagens em região nova. Testar abordagem em academia/salão pequeno',
+    'EXECUÇÃO: 4-5 atendimentos. Cada cliente indica 1 amiga = mais 1 atendimento grátis para ela',
+    'CAPTAÇÃO: Contatar amigas/conhecidas em Curitiba para serem modelos. Enviar LP. Meta: 5 modelos',
+    'EXECUÇÃO: 3-5 atendimentos. Gravar depoimento em vídeo de pelo menos 2 clientes',
+    'AJUSTE: Organizar agenda da semana seguinte por região. Postar resultados. Chamar leads pendentes',
+    null, null,
+    // Semana 4
+    'CAPTAÇÃO: 20 abordagens focadas. Visitar 1-2 empresas novas. Mostrar portfólio real',
+    'EXECUÇÃO DIA FORTE: 4-6 atendimentos agrupados. Máximo de clientes em 1 dia',
+    'CAPTAÇÃO: 15-20 abordagens. Reativar contatos das semanas anteriores via WhatsApp com LP',
+    'EXECUÇÃO: 4-5 atendimentos. Registrar depoimentos. Atualizar portfólio',
+    'FECHAMENTO DO MÊS: Totalizar atendimentos, provas sociais e indicações. Planejar mês 2',
+    null, null
+  ];
+
+  // --- MES 2: Prova Social + Indicações (continua gratuito) ---
+  const m2 = [
+    // Semana 5
+    'CAPTAÇÃO ESTRATÉGICA: 15-20 abordagens com portfólio real. Indicações começam a chegar',
+    'EXECUÇÃO: 4-5 atendimentos. Criar combo: design + henna para clientes que voltam',
+    'CAPTAÇÃO: Focar em 1 bairro. Visitar comércios locais para parceria. Deixar cartão/contato',
+    'EXECUÇÃO: 4-5 atendimentos agrupados. Pedir avaliação no Google/Instagram de cada cliente',
+    'CONTEÚDO + REATIVAÇÃO: Postar melhores resultados. Chamar todas as indicações pendentes',
+    null, null,
+    // Semana 6
+    'CAPTAÇÃO: 15 abordagens + responder indicações que chegaram. Agendar modelos por região',
+    'EXECUÇÃO DIA FORTE: 5-6 atendimentos. Fotografar tudo profissionalmente',
+    'CAPTAÇÃO: Visitar 2 empresas. Propor "dia da beleza" no local (3-4 atendimentos seguidos)',
+    'EXECUÇÃO: 4-5 atendimentos. Gravar reels curtos do processo para Instagram',
+    'AJUSTE: Mapear regiões mais fortes. Organizar clientes recorrentes. Atualizar LP',
+    null, null,
+    // Semana 7
+    'CAPTAÇÃO: 10-15 abordagens + focar em agenda de indicações. Menos rua, mais WhatsApp',
+    'EXECUÇÃO: 5-6 atendimentos. Começar a falar sobre valores futuros (sondar mercado)',
+    'CAPTAÇÃO: Parcerias com salões pequenos (indicação mútua). Visitar 2 salões',
+    'EXECUÇÃO: 4-5 atendimentos. Criar posts de antes/depois com permissão das clientes',
+    'CONTEÚDO: Gravar 3 reels. Postar depoimentos. Preparar transição para mês 3',
+    null, null,
+    // Semana 8
+    'CAPTAÇÃO: Últimas abordagens gratuitas. Comunicar que o preço vai subir. Criar urgência',
+    'EXECUÇÃO DIA FORTE: 5-6 atendimentos. Registrar tudo — último mês de troca',
+    'CAPTAÇÃO: Reativar TODOS os leads frios dos 2 meses. Enviar LP com "últimas vagas grátis"',
+    'EXECUÇÃO: 5-6 atendimentos. Fechamento forte do mês',
+    'FECHAMENTO MÊS 2: Totalizar metas. Verificar se tráfego pago será liberado. Definir preços',
+    null, null
+  ];
+
+  // --- MES 3: Transição para pago + Tráfego pago (se liberado) ---
+  const m3 = [
+    // Semana 9
+    'DEFINIR PREÇOS: Sobrancelha R$25-30 / Henna R$35-45 / Combo R$50-60. Atualizar LP com valores',
+    'EXECUÇÃO PAGA: Primeiros atendimentos cobrados. 3-4 clientes. Manter qualidade máxima',
+    'TRÁFEGO PAGO (se liberado): Criar 1º anúncio Instagram. R$15/dia. Público: mulheres 18-45, Curitiba',
+    'EXECUÇÃO: 3-5 atendimentos pagos. Clientes de troca que voltam agora pagam com desconto',
+    'ANÁLISE: Verificar resultados do anúncio. Ajustar público. Postar novos resultados',
+    null, null,
+    // Semana 10
+    'CAPTAÇÃO ORGÂNICA + PAGA: Responder leads do anúncio. 10 abordagens presenciais com preço',
+    'EXECUÇÃO: 4-5 atendimentos pagos. Oferecer pacote mensal para recorrentes',
+    'TRÁFEGO: Criar 2º criativo com antes/depois real. Testar outro público-alvo',
+    'EXECUÇÃO: 4-5 atendimentos. Pedir indicação — quem indicar ganha 20% desconto',
+    'CONTEÚDO: Postar resultados pagos. Mostrar profissionalismo. Atualizar stories',
+    null, null,
+    // Semana 11
+    'CAPTAÇÃO: Focar em leads qualificados (anúncio + indicação). Menos rua, mais digital',
+    'EXECUÇÃO DIA FORTE: 5-6 atendimentos pagos. Faturamento crescendo',
+    'TRÁFEGO: Analisar métricas. Custo por lead. Escalar o que funciona. Pausar o que não funciona',
+    'EXECUÇÃO: 4-5 atendimentos. Começar lista de espera se agenda lotar',
+    'AJUSTE: Organizar agenda por região + horário fixo por bairro. Otimizar deslocamento',
+    null, null,
+    // Semana 12
+    'CAPTAÇÃO: Atender apenas leads quentes (indicação + anúncio). Agenda mais seletiva',
+    'EXECUÇÃO: 5-6 atendimentos pagos agrupados. Maximizar faturamento do dia',
+    'TRÁFEGO: Escalar para R$20-25/dia se ROI positivo. Criar remarketing para quem visitou LP',
+    'EXECUÇÃO: 5-6 atendimentos. Registrar faturamento',
+    'FECHAMENTO MÊS 3: Totalizar faturamento. Meta R$3.000+. Planejar escala do mês 4',
+    null, null
+  ];
+
+  // --- MES 4: Consolidação + Escala ---
+  const m4 = [
+    // Semana 13
+    'AGENDA: Organizar semana com horários fixos por região. Atender 5+ por dia. Subir preço 10%',
+    'EXECUÇÃO: 5-6 atendimentos pagos. Clientes recorrentes = agenda estável',
+    'TRÁFEGO: Escalar para R$30-40/dia. Criar lookalike das melhores clientes. Testar novos criativos',
+    'EXECUÇÃO: 5-6 atendimentos. Oferecer pacote trimestral com desconto',
+    'CONTEÚDO: Gravar conteúdo profissional. Antes/depois em alta qualidade. Postar reels',
+    null, null,
+    // Semana 14
+    'ESTRATÉGIA: Mapear horários de pico. Criar agenda premium (horários disputados = preço maior)',
+    'EXECUÇÃO DIA FORTE: 6-7 atendimentos. Dia de maior faturamento',
+    'PARCERIAS: Visitar 2 salões/clínicas para parceria formal. Propor comissão por indicação',
+    'EXECUÇÃO: 5-6 atendimentos. Remarketing para clientes dos meses 1-2 com preço especial',
+    'ANÁLISE: Revisar números. Custo de deslocamento vs faturamento. Otimizar rotas',
+    null, null,
+    // Semana 15
+    'CAPTAÇÃO SELETIVA: Atender apenas indicações + leads do tráfego. Zero abordagem fria',
+    'EXECUÇÃO: 5-6 atendimentos. Agenda quase completa organicamente',
+    'TRÁFEGO: Testar stories ads + reels ads. Orcamento R$40/dia. Medir conversão por criativo',
+    'EXECUÇÃO: 5-6 atendimentos. Criar programa de fidelidade (5º atendimento com desconto)',
+    'CONTEÚDO + AJUSTE: Postar transformações. Planejar semana seguinte. Responder todos os leads',
+    null, null,
+    // Semana 16
+    'ESCALA: Avaliar necessidade de espaço fixo vs continuar a domicílio. Calcular custos',
+    'EXECUÇÃO DIA FORTE: 6-7 atendimentos. Manter qualidade mesmo com volume',
+    'TRÁFEGO: Escalar para R$50/dia se rentável. Público semelhante das 50 melhores clientes',
+    'EXECUÇÃO: 5-6 atendimentos. Registrar faturamento',
+    'FECHAMENTO MÊS 4: Meta R$4.500+. Planejar posicionamento premium do mês 5',
+    null, null
+  ];
+
+  // --- MES 5: Premium + Crescimento ---
+  const m5 = [
+    // Semana 17
+    'POSICIONAMENTO: Subir preço para premium. Sobrancelha R$40+ / Henna R$55+ / Combo R$80+',
+    'EXECUÇÃO PREMIUM: 5-6 atendimentos com novo preço. Comunicar valor, não preço',
+    'TRÁFEGO OTIMIZADO: Criativos premium. Focar em público com poder aquisitivo. R$50/dia',
+    'EXECUÇÃO: 5-6 atendimentos. Lista de espera ativa. Agenda lotada = prestígio',
+    'MARCA: Criar identidade visual forte. Atualizar LP, Instagram, WhatsApp Business',
+    null, null,
+    // Semana 18
+    'EXPANSÃO: Avaliar contratar assistente. Mapear demanda por região. Testar atender 2 regiões/dia',
+    'EXECUÇÃO DIA FORTE: 6-7 atendimentos premium. Faturamento máximo',
+    'NETWORKING: Participar de eventos de beleza. Conectar com influenciadoras locais',
+    'EXECUÇÃO: 5-6 atendimentos. Programa VIP para clientes recorrentes',
+    'CONTEÚDO PREMIUM: Sessão de fotos profissional dos melhores trabalhos. Atualizar portfólio',
+    null, null,
+    // Semana 19
+    'ESTRATÉGIA: Avaliar abrir espaço próprio vs expandir domicílio. Calcular ponto de equilíbrio',
+    'EXECUÇÃO: 6-7 atendimentos. Manter qualidade premium em cada atendimento',
+    'TRÁFEGO: Campanhas de remarketing para toda base. Oferta exclusiva para quem já é cliente',
+    'EXECUÇÃO: 5-6 atendimentos premium. Fidelização como prioridade',
+    'AJUSTE: Revisar toda a estratégia dos 5 meses. O que funcionou, o que cortar',
+    null, null,
+    // Semana 20
+    'PLANEJAMENTO FUTURO: Definir próximos passos — espaço fixo, novos serviços, equipe',
+    'EXECUÇÃO DIA FORTE: 6-7 atendimentos. Celebrar a evolução',
+    'TRÁFEGO: Manter investimento otimizado. ROI consolidado. Escalar o que funciona',
+    'EXECUÇÃO: 5-6 atendimentos premium',
+    'FECHAMENTO MÊS 5: Meta R$6.000+. Avaliar resultado total. Definir fase 2 do negócio',
+    null, null
+  ];
+
+  const meses = [m1, m2, m3, m4, m5];
+
+  meses.forEach((mesDays, mi) => {
+    mesDays.forEach((meta, di) => {
+      if (meta === null) return;
+      const d = new Date(start);
+      d.setDate(start.getDate() + (mi * 28) + di);
+      const key = d.toISOString().split('T')[0];
+      defaults[key] = { meta: meta, done: false };
+    });
+  });
+
+  return defaults;
+}
+
+function getDailyPlanData() {
+  let data;
+  try { data = JSON.parse(localStorage.getItem(KEYS.dailyPlan)); } catch { data = null; }
+  if (!data || Object.keys(data).length === 0) {
+    data = getDefaultPlan();
+    localStorage.setItem(KEYS.dailyPlan, JSON.stringify(data));
+  }
+  return data;
+}
+
+function saveDailyPlanField(dateStr, field, value) {
+  const data = getDailyPlanData();
+  if (!data[dateStr]) data[dateStr] = { meta: '', done: false };
+  data[dateStr][field] = value;
+  localStorage.setItem(KEYS.dailyPlan, JSON.stringify(data));
+  updateWeekProgress();
+}
+
+function togglePlanFlag(dateStr) {
+  const data = getDailyPlanData();
+  if (!data[dateStr]) data[dateStr] = { meta: '', done: false };
+  data[dateStr].done = !data[dateStr].done;
+  localStorage.setItem(KEYS.dailyPlan, JSON.stringify(data));
+  renderDailyPlan(currentPlanMonth);
+}
+
+function showPlanMonth(monthIndex, btn) {
+  currentPlanMonth = monthIndex;
+  if (btn) {
+    btn.parentElement.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderDailyPlan(monthIndex);
+}
+
+function renderDailyPlan(monthIndex) {
+  const container = document.getElementById('plan-daily-container');
+  const data = getDailyPlanData();
+  const today = todayStr();
+  const diasNome = ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
+
+  // Calculate month start: each month = 4 weeks = 28 days
+  const monthStart = new Date(PLAN_START);
+  monthStart.setDate(monthStart.getDate() + (monthIndex * 28));
+
+  let html = '';
+
+  for (let week = 0; week < 4; week++) {
+    const weekStart = new Date(monthStart);
+    weekStart.setDate(monthStart.getDate() + (week * 7));
+
+    // Calculate week progress
+    let weekDays = 0;
+    let weekDone = 0;
+
+    let daysHtml = '';
+
+    for (let d = 0; d < 7; d++) {
+      const day = new Date(weekStart);
+      day.setDate(weekStart.getDate() + d);
+      const dateStr = day.toISOString().split('T')[0];
+      const dayOfWeek = day.getDay();
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+      const isToday = dateStr === today;
+      const dayData = data[dateStr] || { meta: '', done: false };
+
+      if (!isWeekend) {
+        weekDays++;
+        if (dayData.done) weekDone++;
+      }
+
+      const dayNum = day.getDate();
+      const monthNum = day.getMonth() + 1;
+
+      daysHtml += `<div class="plan-day ${isWeekend ? 'weekend' : ''} ${isToday ? 'today-row' : ''}">
+        <div class="plan-day-label" onclick="openAgendaDia('${dateStr}')">
+          ${diasNome[dayOfWeek]}
+          <small>${String(dayNum).padStart(2,'0')}/${String(monthNum).padStart(2,'0')}</small>
+        </div>
+        <input class="plan-day-input"
+          type="text"
+          placeholder="Definir meta do dia..."
+          value="${(dayData.meta || '').replace(/"/g, '&quot;')}"
+          onchange="saveDailyPlanField('${dateStr}','meta',this.value)">
+        <div class="plan-day-check" onclick="togglePlanFlag('${dateStr}')">
+          <div class="plan-flag ${dayData.done ? 'done' : ''}">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    const weekStartDate = weekStart.getDate();
+    const weekEndDate = new Date(weekStart);
+    weekEndDate.setDate(weekStart.getDate() + 4);
+    const pct = weekDays > 0 ? Math.round((weekDone / weekDays) * 100) : 0;
+
+    html += `<div class="plan-week">
+      <div class="plan-week-header">
+        <span>Semana ${week + 1} — ${String(weekStartDate).padStart(2,'0')}/${String(weekStart.getMonth()+1).padStart(2,'0')} a ${String(weekEndDate.getDate()).padStart(2,'0')}/${String(weekEndDate.getMonth()+1).padStart(2,'0')}</span>
+        <span class="plan-week-progress">${weekDone}/${weekDays} metas atingidas (${pct}%)</span>
+      </div>
+      ${daysHtml}
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function updateWeekProgress() {
+  // Just re-render headers without full re-render (avoid losing focus)
+  // We'll do a light update on next full render
+}
+
+// ====== AGENDA DO DIA (modal) ======
+let agendaDiaAtual = null;
+
+function getAgendaDiaData() {
+  try { return JSON.parse(localStorage.getItem(KEYS.agendaDia)) || {}; }
+  catch { return {}; }
+}
+
+function saveAgendaDia(dateStr, dayData) {
+  const all = getAgendaDiaData();
+  all[dateStr] = dayData;
+  localStorage.setItem(KEYS.agendaDia, JSON.stringify(all));
+}
+
+function getAgendaDia(dateStr) {
+  const all = getAgendaDiaData();
+  return all[dateStr] || { atividades: [], locais: [], pessoas: [], notas: '' };
+}
+
+function openAgendaDia(dateStr) {
+  agendaDiaAtual = dateStr;
+  const planData = getDailyPlanData();
+  const dayPlan = planData[dateStr] || { meta: '', done: false };
+  const [y,m,d] = dateStr.split('-');
+  const dt = new Date(dateStr + 'T12:00:00');
+  const dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+
+  document.getElementById('ad-titulo').textContent = `${dias[dt.getDay()]}, ${d}/${m}/${y}`;
+  document.getElementById('ad-meta-text').textContent = dayPlan.meta || 'Nenhuma meta definida';
+
+  const agenda = getAgendaDia(dateStr);
+  document.getElementById('ad-notas').value = agenda.notas || '';
+
+  renderAgendaLists(agenda);
+  openModal('agenda-dia');
+}
+
+function renderAgendaLists(agenda) {
+  const iconMap = { atendimento:'AT', visita:'VI', abordagem:'AB', contato:'CO', conteudo:'CT', outro:'OU' };
+  const checkSvg = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  // Atividades
+  document.getElementById('ad-atividades-list').innerHTML = agenda.atividades.length === 0
+    ? '<div style="font-size:13px;color:var(--text2);padding:8px 0">Nenhuma atividade adicionada</div>'
+    : agenda.atividades.map((a, i) => `<div class="ad-item">
+        <div class="ad-item-icon ${a.tipo}">${iconMap[a.tipo] || 'OU'}</div>
+        <div class="ad-item-content">
+          <div class="ad-item-name">${a.texto}</div>
+          <div class="ad-item-sub">${a.tipo}</div>
+        </div>
+        <div class="ad-item-check ${a.done ? 'done' : ''}" onclick="toggleAtividade(${i})">${checkSvg}</div>
+        <button class="btn btn-danger btn-sm" onclick="removeAtividade(${i})">✕</button>
+      </div>`).join('');
+
+  // Locais
+  document.getElementById('ad-locais-list').innerHTML = agenda.locais.length === 0
+    ? '<div style="font-size:13px;color:var(--text2);padding:8px 0">Nenhum local adicionado</div>'
+    : agenda.locais.map((l, i) => `<div class="ad-item">
+        <div class="ad-item-icon visita">📍</div>
+        <div class="ad-item-content">
+          <div class="ad-item-name">${l.nome}</div>
+          <div class="ad-item-sub">${l.horario || 'Sem horário'}</div>
+        </div>
+        <div class="ad-item-check ${l.done ? 'done' : ''}" onclick="toggleLocal(${i})">${checkSvg}</div>
+        <button class="btn btn-danger btn-sm" onclick="removeLocal(${i})">✕</button>
+      </div>`).join('');
+
+  // Pessoas
+  document.getElementById('ad-pessoas-list').innerHTML = agenda.pessoas.length === 0
+    ? '<div style="font-size:13px;color:var(--text2);padding:8px 0">Nenhuma pessoa adicionada</div>'
+    : agenda.pessoas.map((p, i) => `<div class="ad-item">
+        <div class="ad-item-icon contato">👤</div>
+        <div class="ad-item-content">
+          <div class="ad-item-name">${p.nome}</div>
+          <div class="ad-item-sub">${p.servico || 'Sem serviço definido'}</div>
+        </div>
+        <div class="ad-item-check ${p.done ? 'done' : ''}" onclick="togglePessoa(${i})">${checkSvg}</div>
+        <button class="btn btn-danger btn-sm" onclick="removePessoa(${i})">✕</button>
+      </div>`).join('');
+}
+
+function addAtividade() {
+  const texto = document.getElementById('ad-nova-atividade').value.trim();
+  if (!texto) return;
+  const tipo = document.getElementById('ad-tipo-atividade').value;
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.atividades.push({ texto, tipo, done: false });
+  saveAgendaDia(agendaDiaAtual, agenda);
+  document.getElementById('ad-nova-atividade').value = '';
+  renderAgendaLists(agenda);
+}
+
+function addLocal() {
+  const nome = document.getElementById('ad-novo-local').value.trim();
+  if (!nome) return;
+  const horario = document.getElementById('ad-horario-local').value;
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.locais.push({ nome, horario, done: false });
+  saveAgendaDia(agendaDiaAtual, agenda);
+  document.getElementById('ad-novo-local').value = '';
+  document.getElementById('ad-horario-local').value = '';
+  renderAgendaLists(agenda);
+}
+
+function addPessoa() {
+  const nome = document.getElementById('ad-nova-pessoa').value.trim();
+  if (!nome) return;
+  const servico = document.getElementById('ad-servico-pessoa').value.trim();
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.pessoas.push({ nome, servico, done: false });
+  saveAgendaDia(agendaDiaAtual, agenda);
+  document.getElementById('ad-nova-pessoa').value = '';
+  document.getElementById('ad-servico-pessoa').value = '';
+  renderAgendaLists(agenda);
+}
+
+function toggleAtividade(i) {
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.atividades[i].done = !agenda.atividades[i].done;
+  saveAgendaDia(agendaDiaAtual, agenda);
+  renderAgendaLists(agenda);
+}
+
+function toggleLocal(i) {
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.locais[i].done = !agenda.locais[i].done;
+  saveAgendaDia(agendaDiaAtual, agenda);
+  renderAgendaLists(agenda);
+}
+
+function togglePessoa(i) {
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.pessoas[i].done = !agenda.pessoas[i].done;
+  saveAgendaDia(agendaDiaAtual, agenda);
+  renderAgendaLists(agenda);
+}
+
+function removeAtividade(i) {
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.atividades.splice(i, 1);
+  saveAgendaDia(agendaDiaAtual, agenda);
+  renderAgendaLists(agenda);
+}
+
+function removeLocal(i) {
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.locais.splice(i, 1);
+  saveAgendaDia(agendaDiaAtual, agenda);
+  renderAgendaLists(agenda);
+}
+
+function removePessoa(i) {
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.pessoas.splice(i, 1);
+  saveAgendaDia(agendaDiaAtual, agenda);
+  renderAgendaLists(agenda);
+}
+
+function saveAgendaDiaNotas() {
+  const agenda = getAgendaDia(agendaDiaAtual);
+  agenda.notas = document.getElementById('ad-notas').value;
+  saveAgendaDia(agendaDiaAtual, agenda);
+}
+
+// ====== INIT ======
+initCalendar();
+refreshDashboard();
+loadNotes();
+renderDailyPlan(0);
+</script>
+</body>
+</html>
