@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Integração — Agenda LP ↔ Painel</title>
+<style>
+  :root {
+    --bg: #fbfbfd;
+    --card: #ffffff;
+    --text: #1d1d1f;
+    --text2: #6e6e73;
+    --text3: #86868b;
+    --blue: #0071e3;
+    --green: #34c759;
+    --orange: #ff9500;
+    --red: #ff3b30;
+    --purple: #af52de;
+    --border: #e8e8ed;
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 980px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .badge-blue { background: rgba(0,113,227,0.1); color: var(--blue); }
+  .badge-green { background: rgba(52,199,89,0.1); color: var(--green); }
+  .badge-orange { background: rgba(255,149,0,0.1); color: var(--orange); }
+  .badge-purple { background: rgba(175,82,222,0.1); color: var(--purple); }
+  .badge-red { background: rgba(255,59,48,0.1); color: var(--red); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 40px 0 60px;
+  }
+
+  .hero-overline {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.07;
+  }
+
+  .hero p {
+    font-size: 19px;
+    color: var(--text2);
+    max-width: 600px;
+    margin: 16px auto 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: var(--text2);
+    margin-bottom: 32px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    margin-bottom: 16px;
+  }
+
+  .card-dark {
+    background: var(--text);
+    color: #fff;
+  }
+
+  .card-dark .card-desc { color: rgba(255,255,255,0.56); }
+  .card-dark .card-label { color: rgba(255,255,255,0.4); }
+
+  .card-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+
+  .card-name {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+  }
+
+  .card-desc {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.53;
+  }
+
+  /* FLOW DIAGRAM */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .flow-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+    padding-bottom: 32px;
+  }
+
+  .flow-step:last-child { padding-bottom: 0; }
+
+  .flow-step::before {
+    content: '';
+    position: absolute;
+    left: 22px;
+    top: 48px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .flow-step:last-child::before { display: none; }
+
+  .flow-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--text);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flow-number.blue { background: var(--blue); }
+  .flow-number.green { background: var(--green); }
+  .flow-number.orange { background: var(--orange); }
+  .flow-number.purple { background: var(--purple); }
+
+  .flow-content {
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .flow-title {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-bottom: 4px;
+  }
+
+  .flow-desc {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.47;
+  }
+
+  /* GRID */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* DIAGRAM */
+  .diagram {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+
+  .diagram-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .diagram-row:last-child { margin-bottom: 0; }
+
+  .diagram-box {
+    padding: 16px 24px;
+    border-radius: 16px;
+    text-align: center;
+    min-width: 180px;
+  }
+
+  .diagram-box--lp {
+    background: rgba(0,113,227,0.08);
+    border: 2px solid rgba(0,113,227,0.2);
+  }
+
+  .diagram-box--storage {
+    background: rgba(255,149,0,0.08);
+    border: 2px solid rgba(255,149,0,0.2);
+  }
+
+  .diagram-box--painel {
+    background: rgba(52,199,89,0.08);
+    border: 2px solid rgba(52,199,89,0.2);
+  }
+
+  .diagram-box-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+
+  .diagram-box-desc {
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .diagram-arrow {
+    font-size: 24px;
+    color: var(--text3);
+  }
+
+  /* DATA TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 16px;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+    color: var(--text3);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .data-table code {
+    background: rgba(0,0,0,0.04);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'SF Mono', monospace;
+  }
+
+  /* MOCKUP */
+  .mockup {
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    margin-bottom: 16px;
+  }
+
+  .mockup-bar {
+    background: #f5f5f7;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mockup-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .mockup-body {
+    padding: 24px;
+  }
+
+  /* SLOT MOCKUP */
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .slot {
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: default;
+  }
+
+  .slot-available {
+    background: rgba(52,199,89,0.1);
+    color: var(--green);
+    border: 1px solid rgba(52,199,89,0.2);
+  }
+
+  .slot-taken {
+    background: rgba(0,0,0,0.03);
+    color: var(--text3);
+    text-decoration: line-through;
+    border: 1px solid var(--border);
+  }
+
+  .slot-selected {
+    background: var(--blue);
+    color: #fff;
+    border: 1px solid var(--blue);
+  }
+
+  /* CALENDAR MOCKUP */
+  .cal-mock {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 12px;
+  }
+
+  .cal-mock-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+  }
+
+  .cal-mock-header {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+  }
+
+  .cal-day-free {
+    background: rgba(52,199,89,0.08);
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .cal-day-busy {
+    background: rgba(255,149,0,0.08);
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  .cal-day-off {
+    color: var(--text3);
+  }
+
+  .cal-day-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-top: 2px;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    margin-top: 16px;
+  }
+
+  .checklist li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .check-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 12px;
+    margin-top: 1px;
+  }
+
+  .separator {
+    height: 1px;
+    background: var(--border);
+    margin: 48px 0;
+  }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .slot-grid { grid-template-columns: repeat(2, 1fr); }
+    .diagram-row { flex-direction: column; }
+    .diagram-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-overline">Plano de Integração</div>
+    <h1>Agenda LP ↔ Painel</h1>
+    <p>Como a landing page e o painel administrativo vão se comunicar para gerenciar horários em tempo real.</p>
+  </div>
+
+  <!-- ===== SITUAÇÃO ATUAL ===== -->
+  <div class="section">
+    <div class="section-title">Situação Atual</div>
+    <div class="section-sub">Os dois sistemas não se conversam.</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Landing Page (lp.html)</div>
+        <div class="card-name">Formulário livre</div>
+        <div class="card-desc">
+          O lead preenche nome, WhatsApp, data e período preferido. Os dados vão para <code>lgv_bookings</code> no localStorage. Não valida disponibilidade — qualquer horário pode ser escolhido.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Painel Admin (index.html)</div>
+        <div class="card-name">Agenda manual</div>
+        <div class="card-desc">
+          A Loren cria agendamentos manualmente em <code>lgv_agendamentos</code>. Não recebe leads da LP. Precisa copiar dados à mão se alguém agendar pelo site.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- ===== SOLUÇÃO ===== -->
+  <div class="section">
+    <div class="section-title">Solução Proposta</div>
+    <div class="section-sub">Três peças que conectam tudo via localStorage compartilhado.</div>
+
+    <!-- Diagrama -->
+    <div class="diagram">
+      <div class="diagram-row">
+        <div class="diagram-box diagram-box--painel">
+          <div class="diagram-box-title" style="color: var(--green);">Painel Admin</div>
+          <div class="diagram-box-desc">Loren define slots livres</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box diagram-box--storage">
+          <div class="diagram-box-title" style="color: var(--orange);">localStorage</div>
+          <div class="diagram-box-desc">lgv_slots (disponibilidade)</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box diagram-box--lp">
+          <div class="diagram-box-title" style="color: var(--blue);">Landing Page</div>
+          <div class="diagram-box-desc">Lead vê só horários livres</div>
+        </div>
+      </div>
+      <div class="diagram-row">
+        <div class="diagram-box diagram-box--lp">
+          <div class="diagram-box-title" style="color: var(--blue);">Lead agenda na LP</div>
+          <div class="diagram-box-desc">Escolhe slot disponível</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box diagram-box--storage">
+          <div class="diagram-box-title" style="color: var(--orange);">localStorage</div>
+          <div class="diagram-box-desc">lgv_agendamentos + lgv_clientes</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box diagram-box--painel">
+          <div class="diagram-box-title" style="color: var(--green);">Painel recebe</div>
+          <div class="diagram-box-desc">Agendamento aparece na agenda</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- ===== 3 PEÇAS ===== -->
+  <div class="section">
+    <div class="section-title">As 3 Peças da Integração</div>
+    <div class="section-sub">Cada uma resolve uma parte do problema.</div>
+
+    <!-- PEÇA 1 -->
+    <div class="card" style="border-left: 4px solid var(--green);">
+      <span class="badge badge-green">Peça 1 — Painel</span>
+      <div class="card-name" style="margin-top: 12px;">Gerenciador de Disponibilidade</div>
+      <div class="card-desc" style="margin-bottom: 20px;">
+        Nova funcionalidade no painel: a Loren abre o calendário, clica em um dia e define os horários que está disponível para atender. Esses slots são salvos em <code>lgv_slots</code>.
+      </div>
+
+      <!-- Mockup Admin -->
+      <div class="mockup">
+        <div class="mockup-bar">
+          <span class="mockup-dot" style="background:#ff5f57;"></span>
+          <span class="mockup-dot" style="background:#febc2e;"></span>
+          <span class="mockup-dot" style="background:#28c840;"></span>
+          Painel Admin — Agenda — 15 de Abril
+        </div>
+        <div class="mockup-body">
+          <div style="font-size:14px; font-weight:600; color:var(--text2); margin-bottom:8px;">Defina seus horários disponíveis:</div>
+          <div class="slot-grid">
+            <div class="slot slot-available">08:00</div>
+            <div class="slot slot-available">09:00</div>
+            <div class="slot slot-available">10:00</div>
+            <div class="slot slot-taken" style="text-decoration: none; color: var(--text3);">11:00</div>
+            <div class="slot slot-taken" style="text-decoration: none; color: var(--text3);">12:00</div>
+            <div class="slot slot-available">13:00</div>
+            <div class="slot slot-available">14:00</div>
+            <div class="slot slot-available">15:00</div>
+            <div class="slot slot-taken" style="text-decoration: none; color: var(--text3);">16:00</div>
+          </div>
+          <div style="margin-top:16px; font-size:12px; color:var(--text3); display:flex; gap:16px;">
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:4px;background:rgba(52,199,89,0.2);margin-right:4px;"></span> Disponível para leads</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:4px;background:rgba(0,0,0,0.06);margin-right:4px;"></span> Não disponível</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PEÇA 2 -->
+    <div class="card" style="border-left: 4px solid var(--blue);">
+      <span class="badge badge-blue">Peça 2 — Landing Page</span>
+      <div class="card-name" style="margin-top: 12px;">Agendamento Inteligente</div>
+      <div class="card-desc" style="margin-bottom: 20px;">
+        O formulário da LP muda: em vez de campo de data livre, o lead vê um calendário que só mostra dias com vagas. Ao clicar no dia, aparecem os horários disponíveis. Ao agendar, o slot é travado imediatamente.
+      </div>
+
+      <!-- Mockup LP -->
+      <div class="mockup">
+        <div class="mockup-bar">
+          <span class="mockup-dot" style="background:#ff5f57;"></span>
+          <span class="mockup-dot" style="background:#febc2e;"></span>
+          <span class="mockup-dot" style="background:#28c840;"></span>
+          Landing Page — Agendar
+        </div>
+        <div class="mockup-body">
+          <div style="font-size:17px; font-weight:700; letter-spacing:-0.02em; margin-bottom:4px;">Escolha uma data</div>
+          <div style="font-size:13px; color:var(--text2); margin-bottom:12px;">Apenas dias com vagas estão disponíveis</div>
+
+          <!-- Mini Calendar -->
+          <div class="cal-mock">
+            <div class="cal-mock-day cal-mock-header">D</div>
+            <div class="cal-mock-day cal-mock-header">S</div>
+            <div class="cal-mock-day cal-mock-header">T</div>
+            <div class="cal-mock-day cal-mock-header">Q</div>
+            <div class="cal-mock-day cal-mock-header">Q</div>
+            <div class="cal-mock-day cal-mock-header">S</div>
+            <div class="cal-mock-day cal-mock-header">S</div>
+
+            <div class="cal-mock-day cal-day-off">13</div>
+            <div class="cal-mock-day cal-day-free">14 <div class="cal-day-dot" style="background:var(--green);"></div></div>
+            <div class="cal-mock-day cal-day-free">15 <div class="cal-day-dot" style="background:var(--green);"></div></div>
+            <div class="cal-mock-day cal-day-off">16</div>
+            <div class="cal-mock-day cal-day-busy">17 <div class="cal-day-dot" style="background:var(--orange);"></div></div>
+            <div class="cal-mock-day cal-day-free">18 <div class="cal-day-dot" style="background:var(--green);"></div></div>
+            <div class="cal-mock-day cal-day-off">19</div>
+          </div>
+
+          <div style="margin-top:20px; font-size:14px; font-weight:600; margin-bottom:8px;">Horários em 15/Abr:</div>
+          <div class="slot-grid">
+            <div class="slot slot-available">08:00</div>
+            <div class="slot slot-selected">09:00 ✓</div>
+            <div class="slot slot-available">10:00</div>
+            <div class="slot slot-taken">14:00</div>
+            <div class="slot slot-available">15:00</div>
+          </div>
+          <div style="margin-top:8px; font-size:12px; color:var(--text3); display:flex; gap:16px;">
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:4px;background:rgba(52,199,89,0.2);margin-right:4px;"></span> Disponível</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:4px;background:var(--blue);margin-right:4px;"></span> Selecionado</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:4px;background:rgba(0,0,0,0.06);margin-right:4px;"></span> Ocupado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PEÇA 3 -->
+    <div class="card" style="border-left: 4px solid var(--orange);">
+      <span class="badge badge-orange">Peça 3 — Sincronização</span>
+      <div class="card-name" style="margin-top: 12px;">Dados Compartilhados via localStorage</div>
+      <div class="card-desc" style="margin-bottom: 20px;">
+        Como ambas as páginas estão no mesmo domínio (loren-gianelli-vieira.web.app), elas compartilham o mesmo localStorage. Não precisa de servidor ou banco de dados externo.
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Chave</th>
+            <th>Quem escreve</th>
+            <th>Quem lê</th>
+            <th>O que guarda</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>lgv_slots</code></td>
+            <td><span class="badge badge-green">Painel</span></td>
+            <td><span class="badge badge-blue">LP</span></td>
+            <td>Horários disponíveis por dia (ex: 2026-04-15 → [08:00, 09:00, 10:00])</td>
+          </tr>
+          <tr>
+            <td><code>lgv_agendamentos</code></td>
+            <td><span class="badge badge-green">Painel</span> <span class="badge badge-blue">LP</span></td>
+            <td><span class="badge badge-green">Painel</span> <span class="badge badge-blue">LP</span></td>
+            <td>Todos os agendamentos. LP cria com status "pendente". Painel gerencia.</td>
+          </tr>
+          <tr>
+            <td><code>lgv_clientes</code></td>
+            <td><span class="badge badge-green">Painel</span> <span class="badge badge-blue">LP</span></td>
+            <td><span class="badge badge-green">Painel</span></td>
+            <td>LP auto-cadastra o lead como cliente. Painel mostra na lista.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- ===== FLUXO COMPLETO ===== -->
+  <div class="section">
+    <div class="section-title">Fluxo Completo</div>
+    <div class="section-sub">Do momento que a Loren libera horários até o lead confirmar.</div>
+
+    <div class="card">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-number green">1</div>
+          <div class="flow-content">
+            <div class="flow-title">Loren abre o Painel e define disponibilidade</div>
+            <div class="flow-desc">Na aba Agenda, clica no dia e marca os horários livres (ex: 08h, 09h, 10h, 14h, 15h). Salva em <code>lgv_slots</code>.</div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-number blue">2</div>
+          <div class="flow-content">
+            <div class="flow-title">Lead abre a Landing Page</div>
+            <div class="flow-desc">Na seção "Agendar", vê um calendário. Dias sem vagas ficam desabilitados. Dias com vagas ficam verdes.</div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-number blue">3</div>
+          <div class="flow-content">
+            <div class="flow-title">Lead escolhe dia e horário</div>
+            <div class="flow-desc">Clica no dia, vê os slots disponíveis. Slots já agendados por outros leads aparecem riscados. Escolhe um horário livre.</div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-number blue">4</div>
+          <div class="flow-content">
+            <div class="flow-title">Lead preenche dados e confirma</div>
+            <div class="flow-desc">Nome, WhatsApp, Instagram, bairro, serviço. Clica "Agendar agora".</div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-number orange">5</div>
+          <div class="flow-content">
+            <div class="flow-title">Sistema salva automaticamente</div>
+            <div class="flow-desc">
+              Três coisas acontecem ao mesmo tempo:<br>
+              <strong>a)</strong> Cria o cliente em <code>lgv_clientes</code> (origem: "landing-page")<br>
+              <strong>b)</strong> Cria o agendamento em <code>lgv_agendamentos</code> (status: "pendente")<br>
+              <strong>c)</strong> O slot fica bloqueado para os próximos leads
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-number green">6</div>
+          <div class="flow-content">
+            <div class="flow-title">Loren vê no Painel</div>
+            <div class="flow-desc">Ao abrir a aba Agenda, o agendamento já aparece no dia/horário correto com badge "pendente" e origem "LP". Pode confirmar, reagendar ou cancelar.</div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-number purple">7</div>
+          <div class="flow-content">
+            <div class="flow-title">Próximo lead vê horário atualizado</div>
+            <div class="flow-desc">Se outro lead acessar a LP, o horário que foi agendado já aparece como ocupado. Sem conflitos.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- ===== ESTRUTURA DE DADOS ===== -->
+  <div class="section">
+    <div class="section-title">Estrutura dos Dados</div>
+    <div class="section-sub">Formato dos objetos no localStorage.</div>
+
+    <div class="grid-2">
+      <div class="card-dark card">
+        <div class="card-label">lgv_slots (novo)</div>
+        <pre style="font-size:13px; font-family:'SF Mono',monospace; line-height:1.6; color:rgba(255,255,255,0.8); overflow-x:auto; margin-top:8px;">{
+  "2026-04-14": ["08:00","09:00","10:00","14:00","15:00"],
+  "2026-04-15": ["08:00","09:00","10:00"],
+  "2026-04-17": ["13:00","14:00","15:00","16:00"],
+  "2026-04-18": ["09:00","10:00","14:00"]
+}</pre>
+      </div>
+
+      <div class="card-dark card">
+        <div class="card-label">lgv_agendamentos (atualizado)</div>
+        <pre style="font-size:13px; font-family:'SF Mono',monospace; line-height:1.6; color:rgba(255,255,255,0.8); overflow-x:auto; margin-top:8px;">{
+  "id": "m1abc2xyz",
+  "data": "2026-04-15",
+  "horario": "09:00",
+  "clienteId": "lp_k8def3",
+  "servico": "sobrancelha",
+  "tipo": "troca",
+  "regiao": "Batel",
+  "status": "pendente",
+  "categoria": "execucao",
+  "origem": "landing-page",
+  "obs": ""
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- ===== O QUE MUDA ===== -->
+  <div class="section">
+    <div class="section-title">Resumo das Alterações</div>
+    <div class="section-sub">O que precisa ser implementado em cada arquivo.</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">index.html (Painel)</div>
+        <div class="card-name">4 mudanças</div>
+        <ul class="checklist">
+          <li>
+            <div class="check-icon">1</div>
+            <div><strong>Gerenciador de slots</strong> — Interface para Loren marcar/desmarcar horários disponíveis por dia</div>
+          </li>
+          <li>
+            <div class="check-icon">2</div>
+            <div><strong>Badge "LP"</strong> — Agendamentos vindos da LP mostram badge de origem</div>
+          </li>
+          <li>
+            <div class="check-icon">3</div>
+            <div><strong>Indicador no calendário</strong> — Dias com slots livres mostram cor diferente</div>
+          </li>
+          <li>
+            <div class="check-icon">4</div>
+            <div><strong>Notificação</strong> — Contador de agendamentos pendentes da LP</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-label">lp.html (Landing Page)</div>
+        <div class="card-name">3 mudanças</div>
+        <ul class="checklist">
+          <li>
+            <div class="check-icon">1</div>
+            <div><strong>Calendário visual</strong> — Substitui campo de data por calendário que mostra só dias com vaga</div>
+          </li>
+          <li>
+            <div class="check-icon">2</div>
+            <div><strong>Seletor de horários</strong> — Ao clicar no dia, mostra grid de horários disponíveis/ocupados</div>
+          </li>
+          <li>
+            <div class="check-icon">3</div>
+            <div><strong>Gravação integrada</strong> — Ao agendar, salva em lgv_agendamentos + lgv_clientes (mesmo formato do Painel)</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- LIMITAÇÃO -->
+  <div class="section">
+    <div class="card" style="border-left: 4px solid var(--red);">
+      <span class="badge badge-red">Limitação Importante</span>
+      <div class="card-name" style="margin-top: 12px;">localStorage = mesmo navegador</div>
+      <div class="card-desc">
+        Como usamos localStorage, a integração funciona quando a Loren e os leads acessam do <strong>mesmo dispositivo/navegador</strong>, ou se o site for acessado no mesmo ambiente. Para funcionar entre dispositivos diferentes (ex: Loren no notebook, lead no celular), seria necessário migrar para um banco de dados online como o <strong>Firebase Firestore</strong> — que já está disponível no projeto. Essa migração pode ser feita como próximo passo.
+      </div>
+    </div>
+
+    <div class="card" style="border-left: 4px solid var(--purple); margin-top: 16px;">
+      <span class="badge badge-purple">Recomendação</span>
+      <div class="card-name" style="margin-top: 12px;">Implementar com Firestore desde o início</div>
+      <div class="card-desc">
+        Como o projeto já está no Firebase e a Loren vai usar o painel no celular/notebook enquanto leads agendam de outros dispositivos, a melhor abordagem é usar o <strong>Firestore</strong> (banco de dados do Firebase) desde o início. Assim os dados ficam sincronizados em tempo real entre todos os dispositivos, sem depender de localStorage.
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

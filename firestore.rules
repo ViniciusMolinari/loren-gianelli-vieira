@@ -1,0 +1,23 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Slots: anyone can read, anyone can write (admin panel)
+    match /slots/{date} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Agendamentos: anyone can read and create, anyone can update/delete (admin panel)
+    match /agendamentos/{docId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Clientes: anyone can read and create, anyone can update/delete (admin panel)
+    match /clientes/{docId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
