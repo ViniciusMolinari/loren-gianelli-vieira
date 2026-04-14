@@ -3042,7 +3042,7 @@ updateAgStatus = function(id, status) {
 };
 
 // ====== SLOT MANAGER ======
-const SLOT_TIMES = ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
+const SLOT_TIMES = ['08:00','09:30','11:00','12:30','14:00','15:30','17:00','18:30','20:00'];
 
 function getSlotsData() {
   try { return JSON.parse(localStorage.getItem('lgv_slots')) || {}; }
@@ -3057,15 +3057,28 @@ function renderSlotManager(dateStr) {
   const slots = getSlotsData();
   const daySlots = slots[dateStr] || [];
   const agendamentos = getData(KEYS.agendamentos).filter(a => a.data === dateStr);
-  const bookedTimes = new Set(agendamentos.map(a => a.horario));
+  const bookedTimes = agendamentos.map(a => a.horario).filter(Boolean);
+
+  function timeToMin(t) { const [h,m] = t.split(':').map(Number); return h * 60 + m; }
+  function isBlockedByBooking(slotTime) {
+    const slotMin = timeToMin(slotTime);
+    return bookedTimes.some(bt => {
+      const bMin = timeToMin(bt);
+      return Math.abs(slotMin - bMin) < 90 && slotMin !== bMin;
+    });
+  }
 
   const grid = document.getElementById('slot-grid');
   grid.innerHTML = SLOT_TIMES.map(time => {
     const isAvailable = daySlots.includes(time);
-    const isBooked = bookedTimes.has(time);
+    const isBooked = bookedTimes.includes(time);
+    const isBlocked = isBlockedByBooking(time);
 
     if (isBooked) {
       return `<div class="slot-btn booked">${time}</div>`;
+    }
+    if (isBlocked) {
+      return `<div class="slot-btn booked" title="Bloqueado (serviço em andamento)">${time}</div>`;
     }
     return `<div class="slot-btn ${isAvailable ? 'active' : ''}" onclick="toggleSlot(this,'${dateStr}','${time}')">${time}</div>`;
   }).join('');

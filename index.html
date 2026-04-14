@@ -1793,10 +1793,16 @@ function formatDateBR(str) {
   return `${d}/${m}/${y}`;
 }
 
+// ====== VALID SLOT TIMES (1h30 intervals) ======
+const VALID_SLOT_TIMES = new Set(['08:00','09:30','11:00','12:30','14:00','15:30','17:00','18:30','20:00']);
+
 // ====== FIRESTORE LISTENERS ======
 db.collection('slots').onSnapshot(snap => {
   slotsCache = {};
-  snap.forEach(doc => { slotsCache[doc.id] = doc.data().times || []; });
+  snap.forEach(doc => {
+    const times = (doc.data().times || []).filter(t => VALID_SLOT_TIMES.has(t));
+    if (times.length > 0) slotsCache[doc.id] = times;
+  });
   lpRenderCalendar();
   if (lpSelectedDate) lpRenderSlots(lpSelectedDate);
 });
@@ -1871,10 +1877,15 @@ function lpRenderCalendar() {
     const isPast = dateStr < today;
     const isSelected = dateStr === lpSelectedDate;
 
-    // Check available slots (total slots minus booked ones)
+    // Check available slots (total slots minus booked ones, respecting 1h30 service time)
     const daySlots = slotsCache[dateStr] || [];
-    const dayBooked = agendamentosCache.filter(a => a.data === dateStr).map(a => a.horario);
-    const freeSlots = daySlots.filter(s => !dayBooked.includes(s));
+    const dayBooked = agendamentosCache.filter(a => a.data === dateStr).map(a => a.horario).filter(Boolean);
+    function _t2m(t) { const [h,m] = t.split(':').map(Number); return h * 60 + m; }
+    const freeSlots = daySlots.filter(s => {
+      if (dayBooked.includes(s)) return false;
+      const sMin = _t2m(s);
+      return !dayBooked.some(bt => { const bMin = _t2m(bt); return Math.abs(sMin - bMin) < 90 && sMin !== bMin; });
+    });
     const hasSlots = !isPast && freeSlots.length > 0;
 
     let classes = 'lp-cal-day';
@@ -1916,11 +1927,18 @@ function lpRenderSlots(dateStr) {
   document.getElementById('lp-slots-title').textContent = `Horários em ${formatDateBR(dateStr)}:`;
 
   const grid = document.getElementById('lp-slot-grid');
+  function _t2m(t) { const [h,m] = t.split(':').map(Number); return h * 60 + m; }
+  function _isBlockedByBooking(slotTime) {
+    const sMin = _t2m(slotTime);
+    return dayBooked.some(bt => { const bMin = _t2m(bt); return Math.abs(sMin - bMin) < 90 && sMin !== bMin; });
+  }
+
   grid.innerHTML = daySlots.sort().map(time => {
     const isTaken = dayBooked.includes(time);
+    const isBlocked = _isBlockedByBooking(time);
     const isSelected = time === lpSelectedTime;
 
-    if (isTaken) {
+    if (isTaken || isBlocked) {
       return `<div class="lp-slot lp-slot-taken">${time}</div>`;
     }
     return `<div class="lp-slot ${isSelected ? 'lp-slot-selected' : ''}" onclick="lpSelectTime('${time}')">${time}</div>`;
