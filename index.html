@@ -1783,8 +1783,15 @@ function genId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
 }
 
+function toDateKey(d = new Date()) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 function todayStr() {
-  return new Date().toISOString().split('T')[0];
+  return toDateKey();
 }
 
 function formatDateBR(str) {
